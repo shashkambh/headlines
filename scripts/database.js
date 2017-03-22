@@ -18,11 +18,14 @@ var connect = function() {
 function addSource(name, link) {
 	MongoClient.connect(url, function(err, db) {
 		var sources = db.collection('sources');
-		sources.insert({
-			name: name,
-			feed_link: link,
-			articles: []
-		}, function(err, result) {
+		sources.update({feed_link: link},
+		{ $set : {
+				name: name,
+				feed_link: link,
+				articles: []
+			}
+		},
+		{upsert: true}, function(err, result) {
 			db.close();
 		});
 	});
