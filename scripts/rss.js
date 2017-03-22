@@ -7,10 +7,13 @@ var dbinterface = require('./database.js');
  * Then sends the updated feed data to the database.
  */
 function updateFeed(site){
-    var req = request(site);
+    var req = request('http://xkcd.com/rss.xml');
     var fp = new FeedParser();
+    fp.reqData = {};
+    fp.reqData.items = [];
+    fp.reqData.site = site;
 
-    req.on("response", function(res){
+    req.on('response', function(res){
         var stream = this;
         if(res.statusCode !== 200){
             this.emit('error', new Error('failed'));
@@ -23,21 +26,23 @@ function updateFeed(site){
         var stream = this; 
         var meta = this.meta;
         var item;
-        var items = [];
         
         while (item = stream.read()){
-            items.push({title: item.title, link: item.link});
+            this.reqData.items.push({title: item.title, link: item.link});
         }
-4
-
-        dbinterface.updateArticleList(site, items);
     });
+
+    fp.on('end', function(){
+        console.log(this.reqData.items);
+        dbinterface.updateArticleList(this.reqData.site, this.reqData.items);
+    });
+    
 }
 
 /* Function passed into getFeedLinks, called with list of feed names
  * Calls updateFeed on every feed in the database
  */
-function updateFeeds(feeds, err){
+function updateAllFeeds(feeds, err){
 	if(err) return;
 	
     feeds.forEach(function(element){
@@ -49,3 +54,7 @@ function updateFeeds(feeds, err){
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
+
+module.exports.test = function(){
+    dbinterface.getFeedLinks(updateAllFeeds);
+}
