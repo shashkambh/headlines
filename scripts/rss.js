@@ -1,5 +1,5 @@
 var FeedParser = require("feedparser");
-var request = require("request");
+var request = require('request');
 var CronJob = require('cron').CronJob;
 var dbinterface = require('./database.js');
 
@@ -7,11 +7,9 @@ var dbinterface = require('./database.js');
  * Then sends the updated feed data to the database.
  */
 function updateFeed(site){
-    var req = request('http://xkcd.com/rss.xml');
+    var req = request(site);
     var fp = new FeedParser();
-    fp.reqData = {};
-    fp.reqData.items = [];
-    fp.reqData.site = site;
+	var items = [];
 
     req.on('response', function(res){
         var stream = this;
@@ -28,13 +26,12 @@ function updateFeed(site){
         var item;
         
         while (item = stream.read()){
-            this.reqData.items.push({title: item.title, link: item.link});
+            items.push({title: item.title, link: item.link});
         }
     });
 
     fp.on('end', function(){
-        console.log(this.reqData.items);
-        dbinterface.updateArticleList(this.reqData.site, this.reqData.items);
+        dbinterface.updateArticleList(site, items);
     });
     
 }
@@ -46,7 +43,7 @@ function updateAllFeeds(feeds, err){
 	if(err) return;
 	
     feeds.forEach(function(element){
-        updateFeed(element);
+        updateFeed(element.feed_link);
     });
 }
 
@@ -54,7 +51,3 @@ function updateAllFeeds(feeds, err){
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
-
-module.exports.test = function(){
-    dbinterface.getFeedLinks(updateAllFeeds);
-}
