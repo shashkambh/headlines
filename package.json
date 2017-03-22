@@ -8,9 +8,11 @@
   "dependencies": {
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
+    "cron": "^1.2.1",
     "debug": "~2.2.0",
     "ejs": "~2.4.1",
     "express": "~4.13.4",
+    "mongodb": "^2.2.25",
     "morgan": "~1.7.0",
     "nodemon": "^1.11.0",
     "reload": "^1.1.1",
