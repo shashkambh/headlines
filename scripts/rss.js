@@ -26,7 +26,7 @@ function updateFeed(site){
         var item;
         
         while (item = stream.read()){
-            items.push({title: item.title, link: item.link});
+            items.push({title: item.title, link: item.link, date: item.date});
         }
     });
 
@@ -51,3 +51,9 @@ function updateAllFeeds(feeds, err){
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
+
+
+module.exports.test = function(){
+    dbinterface.addSource('xkcd', "http://xkcd.com/rss.xml");
+    dbinterface.getFeedLinks(updateAllFeeds);
+}
