@@ -5,6 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// added below
+var session = require('express-session'); //added
+var morgan = require('morgan'); //added
+var mongoose = require('mongoose'); //added
+var passport = require('passport');
+var flash = require('connect-flash');
+// added above
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -24,6 +32,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+////////////// added March 27 ///////////////////
+
+var configDB = require('./scripts/database.js');
+mongoose.connect(configDB.url);
+require('./config/passport')(passport);
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({secret: 'anystringoftext',
+         saveUninitialized: true,
+         resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+require('./app/routes.js')(app, passport);
+
+////////////// added March 27 ///////////////////
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,8 +1,29 @@
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
+
+
+// 
+/// ALLISON TODO ////////
+// If this code doesn't run for you:
+// Step 1. Unomment module.exports = { 
+//  	'url' : 'mongodb://Allisons-MacBook-Pro.local:27017/data/db'
+// }
+
+// Step 2. comment var url = 'mongodb://localhost:27017/maindb'; //TODO uncomment this 
+
+///// ALLISON SEE STEPS ABOVE ////////////
+/* // uncomment me
+module.exports = { 
+  	'url' : 'mongodb://Allisons-MacBook-Pro.local:27017/data/db'
+  }
+  */
 // Connection URL
-var url = 'mongodb://localhost:27017/maindb';
+
+ var url = 'mongodb://localhost:27017/maindb'; //Allison TODO comment this out
+
+///// SEE STEPS ABOVE ////////////
+
 
 // Use connect method to connect to the server
 var connect = function() {

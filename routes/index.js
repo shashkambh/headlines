@@ -17,6 +17,20 @@ router.get('/testdbCheckSources', function(req, res, next) {
 	databaseTest.testPrintSources();
 });
 
+
+// //////////// added below
+router.get('/signup', function(req, res, next){
+	res.render('signup', {message: ""});
+});
+
+router.get('/login', function(req, res, next){
+	res.render('login', {message: ""});
+});
+// shashank wrote this
+
+// added above 
+
+
 router.get('/testUpdateAllFeeds', function(req, res, next) {
 	rssTest.test();
 	databaseTest.testPrintSources();
