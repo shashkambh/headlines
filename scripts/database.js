@@ -1,29 +1,9 @@
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
-
-
-// 
-/// ALLISON TODO ////////
-// If this code doesn't run for you:
-// Step 1. Unomment module.exports = { 
-//  	'url' : 'mongodb://Allisons-MacBook-Pro.local:27017/data/db'
-// }
-
-// Step 2. comment var url = 'mongodb://localhost:27017/maindb'; //TODO uncomment this 
-
-///// ALLISON SEE STEPS ABOVE ////////////
-/* // uncomment me
-module.exports = { 
-  	'url' : 'mongodb://Allisons-MacBook-Pro.local:27017/data/db'
-  }
-  */
 // Connection URL
 
- var url = 'mongodb://localhost:27017/maindb'; //Allison TODO comment this out
-
-///// SEE STEPS ABOVE ////////////
-
+var url = 'mongodb://localhost:27017/maindb'; 
 
 // Use connect method to connect to the server
 var connect = function() {
@@ -36,7 +16,10 @@ var connect = function() {
   });
 }
 
-function addSource(name, link) {
+/* 
+ * Adds a feed
+ */
+function addFeed(name, link) {
 	MongoClient.connect(url, function(err, db) {
 		var sources = db.collection('sources');
 		sources.update({feed_link: link},
@@ -82,6 +65,49 @@ function updateArticleList(site, items) {
 	});
 }
 
+/*
+ * Returns { articles : [a1, a2, ...] } for a certain feed
+ */
+function getFeedArticles(feedLink, callback) {
+	MongoClient.connect(url, function(err, db) {
+		var sources = db.collection('sources');
+		sources.find({feed_link : feedLink}, { articles : 1, _id : 0 })
+		.toArray(function(err, docs) {
+			callback(docs, err);
+			db.close();
+		});
+	});
+}
+
+/*
+ * Return numArticles from each feed
+ */
+function getMostRecentArticles(feedLink, numArticles, callback) {
+	MongoClient.connect(url, function(err, db) {
+		var sources = db.collection('sources');
+		sources.find({}, { articles: 1, _id: 0})
+		.limit(numArticles)
+		.toArray(function(err, docs) {
+			callback(docs, err);
+			db.close();
+		});
+	});
+}
+
+function getAllFeedLinks(callback) {
+	MongoClient.connect(url, function(err, db) {
+		var sources = db.collection('sources');
+		sources.find({}, {feed_link: 1, _id: 0 })
+		.toArray(function(err, docs) {
+			callback(docs, err);
+			db.close();
+		});
+	});
+}
+
+/*
+ * Runs find all, for debugging
+ */
 function printSources() {
 	MongoClient.connect(url, function(err, db) {
 		var sources = db.collection('sources');
@@ -93,7 +119,10 @@ function printSources() {
 }
 
 module.exports.testConnect = connect;
-module.exports.addSource = addSource;
+module.exports.addFeed = addFeed;
 module.exports.getFeedLinks = getFeedLinks;
 module.exports.updateArticleList = updateArticleList;
+module.exports.getFeedArticles = getFeedArticles;
 module.exports.testPrintSources = printSources;
+module.exports.getAllFeedLinks = getAllFeedLinks;
+module.exports.getMostRecentArticles = getMostRecentArticles;
