@@ -5,9 +5,11 @@ var rssTest = require('../scripts/rss.js')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Express', articles: rssTest.feedData });
 });
 
+/* TODO: remove this code in production
+   Uncomment only for testing and make sure it is recommented before pushing
 router.get('/testdbAddSource', function(req, res, next) {
 	databaseTest.addSource("Test2", "www.test2.com");
 	res.send('You are testing the database!');
@@ -16,9 +18,8 @@ router.get('/testdbAddSource', function(req, res, next) {
 router.get('/testdbCheckSources', function(req, res, next) {
 	databaseTest.testPrintSources();
 });
+*/
 
-
-// //////////// added below
 router.get('/signup', function(req, res, next){
 	res.render('signup', {message: ""});
 });
@@ -26,10 +27,6 @@ router.get('/signup', function(req, res, next){
 router.get('/login', function(req, res, next){
 	res.render('login', {message: ""});
 });
-// shashank wrote this
-
-// added above 
-
 
 router.get('/testUpdateAllFeeds', function(req, res, next) {
 	rssTest.test();

@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 // added below
 var session = require('express-session'); //added
 var morgan = require('morgan'); //added
-var mongoose = require('mongoose'); //added
+//var mongoose = require('mongoose'); // why????
 var passport = require('passport');
 var flash = require('connect-flash');
 // added above
@@ -17,6 +17,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+app.locals.feedData = {};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,10 +35,10 @@ app.use('/', routes);
 app.use('/users', users);
 
 ////////////// added March 27 ///////////////////
-
+/*
 var configDB = require('./scripts/database.js');
-mongoose.connect(configDB.url);
-require('./config/passport')(passport);
+mongoose.connect(configDB.url); // seriously why
+require('./config/passport')(passport); */
 
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -50,7 +51,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-require('./app/routes.js')(app, passport);
+//require('./app/routes.js')(app, passport);
 
 ////////////// added March 27 ///////////////////
 

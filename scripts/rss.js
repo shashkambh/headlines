@@ -3,6 +3,8 @@ var request = require('request');
 var CronJob = require('cron').CronJob;
 var dbinterface = require('./database.js');
 
+var feedData = []
+
 /* Sends an HTTP request to an RSS feed specified by the parameter.
  * Then sends the updated feed data to the database.
  */
@@ -47,13 +49,27 @@ function updateAllFeeds(feeds, err){
     });
 }
 
-/* Updates all feeds every hour */
+function updateFeedData() {
+    dbinterface.getMostRecentArticles(function(docs, err) {
+        feedData = []
+        for(articles in docs) {
+            feedData.concat(articles);
+        }
+    });
+}
+
+
+
+/* Updates all feeds every hour 
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
+*/
 
 
 module.exports.test = function(){
     dbinterface.addSource('xkcd', "http://xkcd.com/rss.xml");
     dbinterface.getFeedLinks(updateAllFeeds);
 }
+
+module.exports.feedData = feedData;

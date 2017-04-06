@@ -1,0 +1,95 @@
+
+/*
+ * Aligns and centers the page title
+ */
+
+.page-title {
+	text-align: center;
+	font-size: 6vw;
+}
+
+/*
+ * This is a nav bar class that is based on Bootstrap's nav-tabs
+ */
+
+.nav-platforms {
+	border: 1px solid #fff;
+}
+
+.nav-link:hover .nav-link:focus {
+	border-bottom-color: #ddd;
+}
+
+.nav-platforms .nav-link.active {
+	border-bottom-color: #6c7a89;
+}
+
+.nav-platforms > li {
+  float: left;
+  margin-bottom: -1px;
+}
+.nav-platforms > li > a {
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+}
+
+.nav-platforms > .nav-right {
+	float: right;
+}
+
+.nav-platforms > li > a:hover {
+  border-color: #eee #eee #ddd;
+}
+.nav-platforms > li.active > a,
+.nav-platforms > li.active > a:hover,
+.nav-platforms > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border-bottom: 1px solid #6c7a89;
+}
+.nav-platforms.nav-justified {
+  width: 100%;
+  border-bottom: 0;
+}
+.nav-platforms.nav-justified > li {
+  float: none;
+}
+.nav-platforms.nav-justified > li > a {
+  margin-bottom: 5px;
+  text-align: center;
+}
+.nav-platforms.nav-justified > .dropdown .dropdown-menu {
+  top: auto;
+  left: auto;
+}
+@media (min-width: 768px) {
+  .nav-platforms.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+  }
+  .nav-platforms.nav-justified > li > a {
+    margin-bottom: 0;
+  }
+}
+.nav-platforms.nav-justified > li > a {
+  margin-right: 0;
+  border-radius: 4px;
+}
+.nav-platforms.nav-justified > .active > a,
+.nav-platforms.nav-justified > .active > a:hover,
+.nav-platforms.nav-justified > .active > a:focus {
+  border: 1px solid #ddd;
+}
+@media (min-width: 768px) {
+  .nav-platforms.nav-justified > li > a {
+    border-bottom: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-platforms.nav-justified > .active > a,
+  .nav-platforms.nav-justified > .active > a:hover,
+  .nav-platforms.nav-justified > .active > a:focus {
+    border-bottom-color: #fff;
+  }
+}
