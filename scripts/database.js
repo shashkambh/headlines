@@ -1,9 +1,7 @@
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
-// Connection URL
-
-var url = 'mongodb://localhost:27017/maindb'; 
+var url = 'mongodb://localhost:27017/maindb';
 
 // Use connect method to connect to the server
 var connect = function() {
@@ -116,6 +114,24 @@ function printSources() {
 			db.close();
 		});
 	});
+}
+
+/*
+    User object format:
+    {id: int, local:{username: String, password: String}, facebook:{id:String, token:String, email:String, name:String}}
+    id needs to be a unique identifier
+ */
+
+function findUserByUsername(username) {
+
+}
+
+function findUserById(id) {
+
+}
+
+function addUser(user) {
+
 }
 
 module.exports.testConnect = connect;
