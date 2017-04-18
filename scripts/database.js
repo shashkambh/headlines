@@ -2,34 +2,37 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
 var url = 'mongodb://localhost:27017/maindb';
+var _db;
 
 // Use connect method to connect to the server
-var connect = function() {
-
-  MongoClient.connect(url, function(err, db) {
-  	assert.equal(null, err);
-  	console.log("Connected successfully to server");
-
-  	db.close();
-  });
+var connect = function(callback) {
+  	if(!_db) {
+		MongoClient.connect(url, function(err, db) {
+			assert.equal(null, err);
+		  	console.log("Connected successfully to server");
+		  	_db = db;
+		  	callback();
+		});
+	} else {
+		callback();
+	}
 }
 
 /* 
  * Adds a feed
  */
 function addFeed(name, link) {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.update({feed_link: link},
-		{ $set : {
-				name: name,
-				feed_link: link,
-				articles: []
-			}
-		},
-		{upsert: true}, function(err, result) {
-			db.close();
-		});
+			{ $set : {
+					name: name,
+					feed_link: link,
+					articles: []
+				}
+			},
+			{upsert: true}
+		);
 	});
 }
 
@@ -37,11 +40,10 @@ function addFeed(name, link) {
  * Return links to all feed sources
  */
 function getFeedLinks(callback) {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.find({}, {feed_link: 1, _id: 0}).toArray(function(err, docs) {
 			callback(docs, err);
-			db.close();
 		});
 	});
 }
@@ -55,8 +57,8 @@ function getFeedLinks(callback) {
  * items = [item1, item2, ...]
  */
 function updateArticleList(site, items) {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.update( { feed_link: site },
 			{ $addToSet : { articles : { $each : items } } }
 		);
@@ -67,12 +69,11 @@ function updateArticleList(site, items) {
  * Returns { articles : [a1, a2, ...] } for a certain feed
  */
 function getFeedArticles(feedLink, callback) {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.find({feed_link : feedLink}, { articles : 1, _id : 0 })
 		.toArray(function(err, docs) {
 			callback(docs, err);
-			db.close();
 		});
 	});
 }
@@ -81,24 +82,22 @@ function getFeedArticles(feedLink, callback) {
  * Return numArticles from each feed
  */
 function getMostRecentArticles(feedLink, numArticles, callback) {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.find({}, { articles: 1, _id: 0})
 		.limit(numArticles)
 		.toArray(function(err, docs) {
 			callback(docs, err);
-			db.close();
 		});
 	});
 }
 
 function getAllFeedLinks(callback) {
-	MongoClient.connect(url, function(err, db) {
+	connect(function() {
 		var sources = db.collection('sources');
 		sources.find({}, {feed_link: 1, _id: 0 })
 		.toArray(function(err, docs) {
 			callback(docs, err);
-			db.close();
 		});
 	});
 }
@@ -107,11 +106,10 @@ function getAllFeedLinks(callback) {
  * Runs find all, for debugging
  */
 function printSources() {
-	MongoClient.connect(url, function(err, db) {
-		var sources = db.collection('sources');
+	connect(function() {
+		var sources = _db.collection('sources');
 		sources.find().toArray(function(err, docs) {
 			console.log(docs);
-			db.close();
 		});
 	});
 }
@@ -122,16 +120,38 @@ function printSources() {
     id needs to be a unique identifier
  */
 
-function findUserByUsername(username) {
-
+function findUserByUsername(usernameInp) {
+	connect(function() {
+		var sources = _db.collection('users');
+		sources.find({ "local.username": usernameInp}
+		).toArray(function(err, docs) {
+			console.log(docs);
+		});
+	});
 }
 
 function findUserById(id) {
-
+	connect(function() {
+		var sources = _db.collection('users');
+		sources.find({ _id: id}
+		).toArray(function(err, docs) {
+			console.log(docs);
+		});
+	});
 }
 
 function addUser(user) {
-
+	connect(function() {
+		var sources = _db.collection('users');
+		var projection = { 
+			$set : {
+					_id: user.id, // TODO: remove
+					local: user.local,
+					facebook: user.facebook
+				}
+		};
+		sources.update({_id: user.id}, projection, {upsert: true});
+	});
 }
 
 module.exports.testConnect = connect;
@@ -142,3 +162,6 @@ module.exports.getFeedArticles = getFeedArticles;
 module.exports.testPrintSources = printSources;
 module.exports.getAllFeedLinks = getAllFeedLinks;
 module.exports.getMostRecentArticles = getMostRecentArticles;
+module.exports.findUserByUsername = findUserByUsername;
+module.exports.findUserById = findUserById;
+module.exports.addUser = addUser;
