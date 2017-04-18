@@ -25,4 +25,9 @@ router.get('/testUpdateAllFeeds', function(req, res, next) {
 	databaseTest.testPrintSources();
 });
 
+
+router.get('/preferences', function(req, res, next) {
+	res.render('preferences', {message: "allison_user_pref"});
+}); 
+
 module.exports = router;

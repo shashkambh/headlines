@@ -1,102 +1,86 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-var db = requre("./database.js");
+var db = require("./database.js");
 var configAuth = require('./auth');
 var bcrypt = require("bcrypt-nodejs");
+var path = require('path');
 
-function generateHash(password){
-    return bcrypt.hashSync(password, 9);
-}
+//var config = require('./headlines/config.js'); //config file contains all tokens and other private info
+var mongodbHost = "mongodb://localhost:27017/maindb";
+var funct = require(path.join("/Users/allisonjberman/Documents/SoftwareDesign/Headlines_github/headlines/functions.js"));
 
-function passwordMatches(user, password){
-    return bcrypt.compareSync(password, user.local.password);
-}
+//var app = express();
 
+//===============PASSPORT=================
 
-passport.serializeUser(function(user, done){
-    done(null, user.id);
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  console.log("serializing " + user.username);
+  done(null, user);
 });
 
-passport.deserializeUser(function(id, done){
-    db.findUserById(id, function(err, user){
-        done(err, user);
-    });
+passport.deserializeUser(function(obj, done) {
+  console.log("deserializing " + obj);
+  done(null, obj);
 });
 
-var passportStrategy = new LocalStrategy({
+// Use the LocalStrategy within Passport to login users.
+passport.use('local-signin', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
-    passReqToCallback: true
-});
-
-passport.use('local-signup', passportStrategy,
-    function(req, email, password, done){
-        process.nextTick(function(){
-            db.findUserByUsername(email, function(err, user){
-                if(err) return done(err);
-
-                if(user){
-                    return done(null, false, req.flash('signupMessage', 'That email already taken'));
-                } else {
-                    var newUser = {};
-                    newUser.local.username = email;
-                    newUser.local.password = generateHash(password);
-                    db.addUser(newUser);
-                }
-            });
-        });
+    passReqToCallback : true}, //allows us to pass back the request to the callback
+  function(req, username, password, done) {
+    funct.localAuth(username, password)
+    .then(function (user) {
+      if (user) {
+        console.log("LOGGED IN AS: " + user.username);
+        req.session.success = 'You are successfully logged in ' + user.username + '!';
+        done(null, user);
+      }
+      if (!user) {
+        console.log("COULD NOT LOG IN");
+        req.session.error = 'Could not log user in. Please try again.'; //inform user could not log them in
+        done(null, user);
+      }
+    })
+    .fail(function (err){
+      console.log(err.body);
     });
-
-passport.use('local-login', passportStrategy,
-    function(req, email, password, done){
-        process.nextTick(function(){
-            db.findUserByUsername(email, function(err, user){
-                    if(err) return done(err);
-
-                    if(!user)
-                        return done(null, false, req.flash('loginMessage', 'No User found'));
-
-                    if(!passwordMatches(user, password)){
-                        return done(null, false, req.flash('loginMessage', 'invalid password'));
-                    }
-
-                    return done(null, user);
-            });
-        });
-    }
-);
-
-var facebookparams = {
-clientID: configAuth.facebookAuth.clientID,
-          clientSecret: configAuth.facebookAuth.clientSecret,
-          callbackURL: configAuth.facebookAuth.callbackURL,
-          profileFields   : ["email", "displayName"],
-          passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-};
-
-
-passport.use('facebook', new FacebookStrategy(facebookparams,
-
-    async (req, accessToken, refreshToken, profile, done) => { 
-        try {
-            var r = await myapi.authenticate(accessToken, profile); 
-            if(!r.authorized) {
-                done('unauthorized'); //error (calls the passport.authenticate callback)
-            } else {
-                done(null, { //no error (calls the passport.authenticate callback)
-                    token: r.token,
-                    fbid: profile.id,
-                    fb_access_token: accessToken,
-                    profile: profile
-                });
-            }
-        }
-        catch (e) {
-            logger.error(e);
-        }
-
-    }
+  }
 ));
 
+// Use the LocalStrategy within Passport to Register/"signup" users.
+passport.use('local-signup', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback : true}, //allows us to pass back the request to the callback
+  function(req, username, password, done) {
+    console.log("local-signup");
+    funct.localReg(username, password)
+    .then(function (user) {
+      if (user) {
+        console.log("REGISTERED: " + user.username);
+        req.session.success = 'You are successfully registered and logged in ' + user.username + '!';
+        done(null, user);
+      }
+      if (!user) {
+        console.log("COULD NOT REGISTER");
+        req.session.error = 'That username is already in use, please try a different one.'; //inform user could not log them in
+        done(null, user);
+      }
+    })
+    .fail(function (err){
+        console.log("something went wrong");
+      console.log(err.body);
+    });
+  }
+));
+
+// Simple route middleware to ensure user is authenticated.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  req.session.error = 'Please sign in!';
+  res.redirect('/signin');
+}
 
