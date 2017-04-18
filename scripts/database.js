@@ -1,5 +1,6 @@
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var MongoClient = require('mongodb').MongoClient,
+   assert = require('assert'), bcrypt = require('bcryptjs'),
+    Q = require('q');;
 
 var url = 'mongodb://localhost:27017/maindb';
 
@@ -122,6 +123,74 @@ function printSources() {
     id needs to be a unique identifier
  */
 
+function localReg(username, password){
+	var deferred = Q.defer();
+  
+  MongoClient.connect(url, function (err, db) {
+    var collection = db.collection('localUsers');
+
+    //check if username is already assigned in our database
+    collection.findOne({'username' : username})
+      .then(function (result) {
+        if (null != result) {
+          console.log("USERNAME ALREADY EXISTS:", result.username);
+          deferred.resolve(false); // username exists
+        }
+        else  {
+          var hash = bcrypt.hashSync(password, 8);
+          var user = {
+            "username": username,
+            "password": hash,
+            "avatar": "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
+          }
+
+          console.log("CREATING USER:", username);
+        
+          collection.insert(user)
+            .then(function () {
+              db.close();
+              deferred.resolve(user);
+            });
+        }
+      });
+  });
+
+  return deferred.promise;
+}
+
+function localAuth(username, password){
+	var deferred = Q.defer();
+
+  MongoClient.connect(url, function (err, db) {
+    var collection = db.collection('localUsers');
+
+    collection.findOne({'username' : username})
+      .then(function (result) {
+        if (null == result) {
+          console.log("USERNAME NOT FOUND:", username);
+
+          deferred.resolve(false);
+        }
+        else {
+          var hash = result.password;
+
+          console.log("FOUND USER: " + result.username);
+
+          if (bcrypt.compareSync(password, hash)) {
+            deferred.resolve(result);
+          } else {
+            console.log("AUTHENTICATION FAILED");
+            deferred.resolve(false);
+          }
+        }
+
+        db.close();
+      });
+  });
+
+  return deferred.promise;
+}
+
 function findUserByUsername(username) {
 
 }
@@ -130,9 +199,10 @@ function findUserById(id) {
 
 }
 
-function addUser(user) {
+function addUser(username, password) {
 
 }
+
 
 module.exports.testConnect = connect;
 module.exports.addFeed = addFeed;
@@ -142,3 +212,5 @@ module.exports.getFeedArticles = getFeedArticles;
 module.exports.testPrintSources = printSources;
 module.exports.getAllFeedLinks = getAllFeedLinks;
 module.exports.getMostRecentArticles = getMostRecentArticles;
+module.exports.localReg = localReg;
+module.exports.localAuth = localAuth;

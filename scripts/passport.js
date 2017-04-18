@@ -8,7 +8,7 @@ var path = require('path');
 
 //var config = require('./headlines/config.js'); //config file contains all tokens and other private info
 var mongodbHost = "mongodb://localhost:27017/maindb";
-var funct = require(path.join("/Users/allisonjberman/Documents/SoftwareDesign/Headlines_github/headlines/functions.js"));
+var funct = require("./database.js");
 
 //var app = express();
 

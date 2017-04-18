@@ -5,7 +5,9 @@ var rssTest = require('../scripts/rss.js')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	 console.log("index before");
   res.render('index', { title: 'Express', articles: rssTest.feedData });
+  console.log("index after");
 });
 
 /* TODO: remove this code in production
