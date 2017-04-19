@@ -6,8 +6,6 @@
     "start": "nodemon --verbose -e css,ejs,js bin/www"
   },
   "dependencies": {
-    "bcrypt": "^1.0.2",
-    "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^0.7.12",
     "body-parser": "~1.15.1",
     "connect-flash": "~0.1.1",

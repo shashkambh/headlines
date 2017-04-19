@@ -121,7 +121,8 @@ function printSources() {
     id needs to be a unique identifier
  */
 
-function localReg(username, password){
+// registers a user (adds a user)
+function addUser(username, password){
 	var deferred = Q.defer();
   
   MongoClient.connect(url, function (err, db) {
@@ -156,7 +157,8 @@ function localReg(username, password){
   return deferred.promise;
 }
 
-function localAuth(username, password){
+// logs in a user (checks the database for authentication)
+function userLogin(username, password){
 	var deferred = Q.defer();
 
   MongoClient.connect(url, function (err, db) {
@@ -199,8 +201,9 @@ function findUserByUsername(usernameInp) {
 		});
 	});
 
-
+}
 function findUserById(id) {
+	//TODO
 	connect(function() {
 		var sources = _db.collection('users');
 		sources.find({ _id: id}
@@ -210,6 +213,7 @@ function findUserById(id) {
 	});
 }
 
+/*
 function addUser(user) {
 	connect(function() {
 		var sources = _db.collection('users');
@@ -223,7 +227,7 @@ function addUser(user) {
 		sources.update({_id: user.id}, projection, {upsert: true});
 	});
 }
-
+*/
 
 module.exports.testConnect = connect;
 module.exports.addFeed = addFeed;
@@ -233,7 +237,7 @@ module.exports.getFeedArticles = getFeedArticles;
 module.exports.testPrintSources = printSources;
 module.exports.getAllFeedLinks = getAllFeedLinks;
 module.exports.getMostRecentArticles = getMostRecentArticles;
-module.exports.localReg = localReg;
-module.exports.localAuth = localAuth;module.exports.findUserByUsername = findUserByUsername;
-module.exports.findUserById = findUserById;
 module.exports.addUser = addUser;
+module.exports.userLogin = userLogin;
+module.exports.findUserByUsername = findUserByUsername;
+module.exports.findUserById = findUserById;

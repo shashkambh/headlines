@@ -3,7 +3,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var db = require("./database.js");
 var configAuth = require('./auth');
-var bcrypt = require("bcrypt-nodejs");
 var path = require('path');
 
 //var config = require('./headlines/config.js'); //config file contains all tokens and other private info
@@ -31,7 +30,7 @@ passport.use('local-signin', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback : true}, //allows us to pass back the request to the callback
   function(req, username, password, done) {
-    funct.localAuth(username, password)
+    funct.userLogin(username, password)
     .then(function (user) {
       if (user) {
         console.log("LOGGED IN AS: " + user.username);
@@ -57,7 +56,7 @@ passport.use('local-signup', new LocalStrategy({
     passReqToCallback : true}, //allows us to pass back the request to the callback
   function(req, username, password, done) {
     console.log("local-signup");
-    funct.localReg(username, password)
+    funct.addUser(username, password)
     .then(function (user) {
       if (user) {
         console.log("REGISTERED: " + user.username);
