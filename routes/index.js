@@ -6,7 +6,7 @@ var rssTest = require('../scripts/rss.js')
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	 console.log("index before");
-  res.render('index', { title: 'Express', articles: rssTest.feedData });
+  res.render('index', { title: 'Headlines', articles: rssTest.feedData });
   console.log("index after");
 });
 
@@ -60,7 +60,7 @@ router.get('/testUpdateAllFeeds', function(req, res, next) {
 
 
 router.get('/preferences', function(req, res, next) {
-	res.render('preferences', {message: "allison_user_pref"});
+	res.render('preferences', {title: "Settings"});
 }); 
 
 module.exports = router;

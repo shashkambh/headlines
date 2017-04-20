@@ -26,7 +26,7 @@ passport.deserializeUser(function(obj, done) {
 
 // Use the LocalStrategy within Passport to login users.
 passport.use('local-signin', new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback : true}, //allows us to pass back the request to the callback
   function(req, username, password, done) {
@@ -51,7 +51,7 @@ passport.use('local-signin', new LocalStrategy({
 
 // Use the LocalStrategy within Passport to Register/"signup" users.
 passport.use('local-signup', new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback : true}, //allows us to pass back the request to the callback
   function(req, username, password, done) {

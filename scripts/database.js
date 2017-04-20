@@ -192,14 +192,14 @@ function userLogin(username, password){
 }
 
 
-function findUserByUsername(usernameInp) {
+function findUserByUsername(usernameInp) {	
 	connect(function() {
 		var sources = _db.collection('users');
-		sources.find({ "local.username": usernameInp}
+		sources.find({ "username": usernameInp}
 		).toArray(function(err, docs) {
 			console.log(docs);
 		});
-	});
+	}); 
 
 }
 function findUserById(id) {
