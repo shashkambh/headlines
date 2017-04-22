@@ -2,9 +2,6 @@ var express = require('express');
 var passport = require('passport');
 var router = express.Router();
 var rssTest = require('../scripts/rss.js')
-//var LocalStrategy = require('passport-local').Strategy;
-
-//var funct = require('../scripts/passport.js');
 // ============= USER ROUTES ==============
 
 function isLoggedIn(req, res, next) {
@@ -69,14 +66,9 @@ router.get('/logout', function(req, res){
   var name = req.user.username;
   console.log("LOGGIN OUT " + req.user.username)
   req.logout();
-  res.redirect('/');
   req.session.notice = "You have successfully been logged out " + name + "!";
+  res.redirect('/');
 });
-
-router.get('/logout', function(req, res){
-	req.logout();
-	res.redirect('/');
-})
 
 router.get('/preferences', function(req, res, next) {
 	res.render('preferences', {title: "Settings", });

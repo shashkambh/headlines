@@ -1,6 +1,5 @@
-var MongoClient = require('mongodb').MongoClient,
-   assert = require('assert'), bcrypt = require('bcryptjs'),
-    Q = require('q');;
+var MongoClient = require('mongodb').MongoClient;
+var bcrypt = require('bcryptjs');
 
 var url = 'mongodb://localhost:27017/maindb';
 var _db;
@@ -9,13 +8,12 @@ var _db;
 var connect = function(callback) {
   	if(!_db) {
 		MongoClient.connect(url, function(err, db) {
-			assert.equal(null, err);
-		  	console.log("Connected successfully to server");
+            if(err) throw err;
 		  	_db = db;
-		  	callback();
+		  	return callback();
 		});
 	} else {
-		callback();
+		return callback();
 	}
 }
 
@@ -95,7 +93,7 @@ function getMostRecentArticles(feedLink, numArticles, callback) {
 
 function getAllFeedLinks(callback) {
 	connect(function() {
-		var sources = db.collection('sources');
+		var sources = _db.collection('sources');
 		sources.find({}, {feed_link: 1, _id: 0 })
 		.toArray(function(err, docs) {
 			callback(docs, err);
@@ -117,117 +115,47 @@ function printSources() {
 
 /*
     User object format:
-    {id: int, local:{username: String, password: String}, facebook:{id:String, token:String, email:String, name:String}}
-    id needs to be a unique identifier
+    {username:string, password:string}
+    password is a hash, extended 8x
  */
 
 // registers a user (adds a user)
-function addUser(username, password){
-	var deferred = Q.defer();
-  
-  MongoClient.connect(url, function (err, db) {
-    var collection = db.collection('localUsers');
-
-    //check if username is already assigned in our database
-    collection.findOne({'username' : username})
-      .then(function (result) {
-        if (null != result) {
-          console.log("USERNAME ALREADY EXISTS:", result.username);
-          deferred.resolve(false); // username exists
-        }
-        else  {
-          var hash = bcrypt.hashSync(password, 8);
-          var user = {
-            "username": username,
-            "password": hash,
-            "avatar": "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
-          }
-
-          console.log("CREATING USER:", username);
-        
-          collection.insert(user)
-            .then(function () {
-              db.close();
-              deferred.resolve(user);
-            });
-        }
-      });
-  });
-
-  return deferred.promise;
+function addUser(req, username, password, done){
+    connect(function() {
+        var users = _db.collection('users');
+        var user = users.findOne({'username': username}, function(err, user) {
+			if(err) throw err;
+			if(!user){
+				var hash = bcrypt.hashSync(password, 8);
+				var newUser = {
+					'username': username,
+					'password': hash
+				};
+				users.insert(newUser);
+				req.session.success = 'You are successfully regstered ' + newUser.username + '!';
+			} else {
+				req.session.error = 'That username is already taken, please try a different one.';
+			}
+			done(null, user);
+		});
+    });
 }
 
 // logs in a user (checks the database for authentication)
-function userLogin(username, password){
-	var deferred = Q.defer();
-
-  MongoClient.connect(url, function (err, db) {
-    var collection = db.collection('localUsers');
-
-    collection.findOne({'username' : username})
-      .then(function (result) {
-        if (null == result) {
-          console.log("USERNAME NOT FOUND:", username);
-
-          deferred.resolve(false);
-        }
-        else {
-          var hash = result.password;
-
-          console.log("FOUND USER: " + result.username);
-
-          if (bcrypt.compareSync(password, hash)) {
-            deferred.resolve(result);
-          } else {
-            console.log("AUTHENTICATION FAILED");
-            deferred.resolve(false);
-          }
-        }
-
-        db.close();
-      });
-  });
-
-  return deferred.promise;
-}
-
-
-function findUserByUsername(usernameInp) {	
-	connect(function() {
-		var sources = _db.collection('users');
-		sources.find({ "username": usernameInp}
-		).toArray(function(err, docs) {
-			console.log(docs);
+function userLogin(req, username, password, done){
+    connect(function() {
+        var users = _db.collection('users');
+        var user = users.findOne({'username': username}, function(err, user) {
+			if(err) throw err;
+			if(user && bcrypt.compareSync(password, user.password)){
+				req.session.success = 'You are successfully logged in '+ user.username + '!';
+			} else {
+				req.session.error = 'Could not log user in. Please try again.';
+			}
+			done(null, user);
 		});
-	}); 
-
+    });
 }
-function findUserById(id) {
-	//TODO
-	connect(function() {
-		var sources = _db.collection('users');
-		sources.find({ _id: id}
-		).toArray(function(err, docs) {
-			console.log(docs);
-		});
-	});
-}
-
-/*
-function addUser(user) {
-	connect(function() {
-		var sources = _db.collection('users');
-		var projection = { 
-			$set : {
-					_id: user.id, // TODO: remove
-					local: user.local,
-					facebook: user.facebook
-				}
-		};
-		sources.update({_id: user.id}, projection, {upsert: true});
-	});
-}
-*/
 
 module.exports.testConnect = connect;
 module.exports.addFeed = addFeed;
@@ -239,5 +167,4 @@ module.exports.getAllFeedLinks = getAllFeedLinks;
 module.exports.getMostRecentArticles = getMostRecentArticles;
 module.exports.addUser = addUser;
 module.exports.userLogin = userLogin;
-module.exports.findUserByUsername = findUserByUsername;
-module.exports.findUserById = findUserById;
+

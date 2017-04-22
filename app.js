@@ -12,15 +12,15 @@ var flash = require('connect-flash');
 // routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+// Runs passport setup script
 var passportFile = require('./scripts/passport');
 
 var app = express();
 app.locals.feedData = {};
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//console.log("dirname!!!!", path.join(__dirname));
 var headlines_dirname = path.join(__dirname);
 app.set('view engine', 'ejs');
 
@@ -41,31 +41,6 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // Routes
 app.use('/', routes);
 app.use('/', users);
-
-
-// ============== EXPRESS ====================
-// Session-persisted message middleware
-/*
-app.use(function(req, res, next){
-  var err = req.session.error,
-      msg = req.session.notice,
-      success = req.session.success;
-
-  delete req.session.error;
-  delete req.session.success;
-  delete req.session.notice;
-
-  if (err) res.locals.error = err;
-  if (msg) res.locals.notice = msg;
-  if (success) res.locals.success = success;
-
-  next();
-});
-
-//app.use(app.router);
-*/
-// ============== EXPRESS =====================
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -98,7 +73,7 @@ app.use(function(req, res, next){
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error###', {
+    res.render('error', {
       message: err.message,
       error: err
     });
@@ -109,7 +84,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error!!!', {
+  res.render('error', {
     message: err.message,
     error: {}
   });
