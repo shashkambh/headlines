@@ -1,66 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var databaseTest = require('../scripts/database.js');
-var rssTest = require('../scripts/rss.js')
+var database = require('../scripts/database.js');
 
 /* GET home page. */
+/* TODO: articles come from database */
 router.get('/', function(req, res, next) {
-	 console.log("index before");
-  res.render('index', { title: 'Headlines', articles: rssTest.feedData });
-  console.log("index after");
+	res.render('index', { title: 'Headlines', articles: [], user: req.user });
 });
-
-/* TODO: remove this code in production 
-   Uncomment only for testing and make sure it is recommented before pushing*/
-router.get('/testdbAddSource', function(req, res, next) {
-	databaseTest.addFeed("Test200000", "www.test2.com");
-	res.send('You are testing the database!');
-});
-
-
-router.get('/testdbCheckSources', function(req, res, next) {
-	databaseTest.testPrintSources();
-});
-
-// TEST -- remove when done
-
-router.get('/testAddUser', function(req, res, next) {
-	databaseTest.addUser({	
-		id: 123, 
-		local: {
-			username: "pranav",
-			password: "password"
-		},
-		facebook: {
-			id: "fbid",
-			token: "fbtoken",
-			email: "fbemail@fb.com",
-			name: "pranav"
-		} 
-	});
-});
-
-router.get('/testFindUserUsername', function(req, res, next) {
-	databaseTest.findUserByUsername("pranav");
-	res.send("Testing find user by username.");
-});
-
-router.get('/testFindUserId', function(req, res, next) {
-	databaseTest.findUserById(123);
-	res.send("Testing find user by id.");
-});
-
-
-/*
-router.get('/testUpdateAllFeeds', function(req, res, next) {
-	rssTest.test();
-	databaseTest.testPrintSources();
-});
-*/
-
-
-router.get('/preferences', function(req, res, next) {
-	res.render('preferences', {title: "Settings"});
-}); 
 
 module.exports = router;

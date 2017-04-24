@@ -8,54 +8,40 @@ function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()){
 		return next();
 	}
-
 	res.redirect('/login');
 }
 
 router.get('/login', function(req, res){
-
-	res.render('login.ejs', { message: req.flash('loginMessage') });
+	res.render('signup.ejs', { title: "Login", error: req.session.loginerror });
 });
+
 router.post('/login', passport.authenticate('local-signin', {
-	successRedirect: '/profile', //routes back to main
+	successRedirect: '/',
 	failureRedirect: '/login',
 	failureFlash: true
 }));
 
 router.get('/signup', function(req, res){
-	res.render('signup.ejs', { message: req.flash('signupMessage') });
+	res.render('signup.ejs', { title: "Signup", error: req.session.signuperror });
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
 router.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/login',
-  failureRedirect: '/signup'
-  })
-);
-
-router.get('/profile', isLoggedIn, function(req, res){ //changed both from profile
-	res.render('profile.ejs', {title: 'Headlines', articles: rssTest.feedData, user: req.user });
-});
-
-
-//sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
-router.post('/login', passport.authenticate('local-signin', { 
   successRedirect: '/',
-  failureRedirect: '/signin'
+  failureRedirect: '/signup'
   })
 );
 
 //logs user out of site, deleting them from the session, and returns to homepage
 router.get('/logout', function(req, res){
   var name = req.user.username;
-  console.log("LOGGIN OUT " + req.user.username)
   req.logout();
   req.session.notice = "You have successfully been logged out " + name + "!";
   res.redirect('/');
 });
 
 router.get('/preferences', function(req, res, next) {
-	res.render('preferences', {title: "Settings", });
+	res.render('preferences', {title: "Settings"});
 }); 
 
 module.exports = router;

@@ -1,10 +1,13 @@
 var MongoClient = require('mongodb').MongoClient;
 var bcrypt = require('bcryptjs');
 
+/* constants used for connection */
 var url = 'mongodb://localhost:27017/maindb';
 var _db;
 
-// Use connect method to connect to the server
+/*
+ * Connects to the server if needed, then lets callback handle query
+ */
 var connect = function(callback) {
   	if(!_db) {
 		MongoClient.connect(url, function(err, db) {
@@ -91,6 +94,9 @@ function getMostRecentArticles(feedLink, numArticles, callback) {
 	});
 }
 
+/*
+ * Returns all feeds in the database
+ */
 function getAllFeedLinks(callback) {
 	connect(function() {
 		var sources = _db.collection('sources');
@@ -135,7 +141,7 @@ function addUser(req, username, password, done){
 				users.insert(newUser);
 				req.session.success = 'You are successfully registered ' + newUser.username + '!';
 			} else {
-				req.session.error = 'That username is already taken, please try a different one.';
+				req.session.signuperror = 'That username is already taken, please try a different one.';
 			}
 			done(null, newUser);
 		});
@@ -150,10 +156,11 @@ function userLogin(req, username, password, done){
 			if(err) throw err;
 			if(user && bcrypt.compareSync(password, user.password)){
 				req.session.success = 'You are successfully logged in '+ user.username + '!';
+				done(null, user);
 			} else {
-				req.session.error = 'Could not log user in. Please try again.';
+				req.session.loginerror = 'Could not log user in. Please try again.';
+				done(false);
 			}
-			done(null, user);
 		});
     });
 }
