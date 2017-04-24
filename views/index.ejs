@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/index.css" />
-  </head>
+</head>
  
-  <body>
+<body>
     <div class="container">
         <div class="row">
             <div class="page-header col-xs-10 col-xs-offset-1">
@@ -14,13 +14,41 @@
             </div>
 
             <ul class="nav nav-platforms col-xs-10 col-xs-offset-1">
-
-                <li role="presentation" class="active"><a href="#">Home</a></li>
+                <li role="presentation" class="active"><a href="/">Home</a></li>
+                <% if(user) { %>
+                <li role="presentation" class="active"><a href="/preferences">Settings</a></li>
+                <li class="nav-right"><a href="/logout" class="btn btn-default"><span class="fa fa-user"></span>Logout</a></li>
+                <% } else { %>
                 <li class="nav-right"><a href="/login" class="btn btn-default"><span class="fa fa-user"></span>Login</a></li>
                 <li class="nav-right"><a href="/signup" class="btn btn-default"><span class="fa fa-user"></span>Signup</a></li>
+                <% } %>
             </ul>
         </div>
     </div>
+
+
+<% if(user) { %>
+    <div class="row">
+        <!-- LOCAL INFORMATION -->
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Breaking News</h3>
+                    <p>
+                        <strong>Welcome</strong>: <%= user.username %><br>
+                    </p>
+            </div>
+        <div>
+            <p> Show news articles here! </p>
+        </div>
+        </div>
+        <% for(article in feedData) { %>
+            <div class="row">
+
+                <p><%= article.title %></p>
+            </div>
+        <% } %>
+    </div>
+<% } %>
    
 <% for(article in feedData) { %>
 <div class="row">
