@@ -33,25 +33,9 @@ router.post('/signup', passport.authenticate('local-signup', {
   })
 );
 
-/*
-router.post('/signup', passport.authenticate('local-signup', {
-	successRedirect: '/',
-	failureRedirect: '/signup',
-	failureFlash: true
-})); */
-
 router.get('/profile', isLoggedIn, function(req, res){ //changed both from profile
 	res.render('profile.ejs', {title: 'Headlines', articles: rssTest.feedData, user: req.user });
 });
-
-//===============ROUTES=================
-
-/*
-//displays our signup page
-router.get('/signup', function(req, res){
-  res.render('signup');
-}); */
-
 
 
 //sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page

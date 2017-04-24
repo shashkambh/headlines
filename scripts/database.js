@@ -125,18 +125,19 @@ function addUser(req, username, password, done){
         var users = _db.collection('users');
         var user = users.findOne({'username': username}, function(err, user) {
 			if(err) throw err;
+            var newUser = null;
 			if(!user){
 				var hash = bcrypt.hashSync(password, 8);
-				var newUser = {
+				newUser = {
 					'username': username,
 					'password': hash
 				};
 				users.insert(newUser);
-				req.session.success = 'You are successfully regstered ' + newUser.username + '!';
+				req.session.success = 'You are successfully registered ' + newUser.username + '!';
 			} else {
 				req.session.error = 'That username is already taken, please try a different one.';
 			}
-			done(null, user);
+			done(null, newUser);
 		});
     });
 }
