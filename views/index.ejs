@@ -38,7 +38,7 @@
                     </p>
             </div>
         <div>
-            <p> Show news articles here! </p>
+            <p> Show news articles here! <%= user.favSources %></p>
         </div>
         </div>
         <% for(article in feedData) { %>
@@ -52,7 +52,7 @@
    
 <% for(article in feedData) { %>
 <div class="row">
-    <p><%= article.title %></p>
+   <p><%= article.title %></p>
 </div>
 <% } %>
 
