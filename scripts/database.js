@@ -157,7 +157,6 @@ function userLogin(req, username, password, done){
 			if(err) throw err;
 			if(user && bcrypt.compareSync(password, user.password)){
 				req.session.success = 'You are successfully logged in '+ user.username + '!';
-				console.log("you are logged in");
 				done(null, user);
 			}
 			else {
