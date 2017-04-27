@@ -37,9 +37,7 @@
                         <strong>Welcome</strong>: <%= user.username %><br>
                     </p>
             </div>
-        <div>
-            <p> Show news articles here! </p>
-        </div>
+        
         </div>
         <% for(article in feedData) { %>
             <div class="row">
@@ -52,7 +50,7 @@
    
 <% for(article in feedData) { %>
 <div class="row">
-    <p><%= article.title %></p>
+   <p><%= article.title %></p>
 </div>
 <% } %>
 

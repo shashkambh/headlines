@@ -7,6 +7,7 @@
   </head>
  
   <body>
+  <form id="userPreferences" action="/preferences" method="post">
     <div class="container">
         <div class="row">
             <div class="page-header col-xs-10 col-xs-offset-1">
@@ -18,7 +19,9 @@
             </ul>
         </div>
     </div>
-  <p class ="text-center"> Welcome to the News Application Headlines!</p>
+
+ 	
+  <p class ="text-center"> Welcome to the News Application Headlines, <%= user.username %>!</p>
 <p class ="text-center"> Please select from the following News Sources to be in your Newsfeed.
 <p class ="text-center"><b> Source Options:</b> </p>
 
@@ -27,7 +30,16 @@
 	<div class="col-xs-4"></div>
 	<div class="col-xs-4">
 	<div class="checkbox">
-	  <label><input type="checkbox" value="">CNN</label>
+
+	<!-- ============== CNN ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" value="http://rss.cnn.com/rss/cnn_topstories.rss">CNN</label>
+	<%}else if(user.favSources.indexOf("http://rss.cnn.com/rss/cnn_topstories.rss") >=0){ %>
+		<label><input type="checkbox" name="news" value="http://rss.cnn.com/rss/cnn_topstories.rss" checked>CNN</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" value="http://rss.cnn.com/rss/cnn_topstories.rss">CNN</label>
+	<% }%>
+
 	</div>
 	</div>
 	<div class="col-xs-4"></div>
@@ -37,7 +49,16 @@
 	<div class="col-xs-4"></div>
 	<div class="col-xs-4">
 	<div class="checkbox">
-	  <label><input type="checkbox" value="">Yahoo</label>
+
+	<!-- ============== Yahoo ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5">Yahoo</label>
+	<%}else if(user.favSources.indexOf("http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5") >=0){ %>
+		<label><input type="checkbox" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5" checked>Yahoo</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5">Yahoo</label>
+	<% }%>
+	
 	</div>
 	</div>
 	<div class="col-xs-4"></div>
@@ -47,7 +68,17 @@
 	<div class="col-xs-4"></div>
 	<div class="col-xs-4">
 	<div class="checkbox">
-	  <label><input type="checkbox" value="">BBC</label>
+
+
+	<!-- ===================== BBC ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk">BBC</label>
+	<%}else if(user.favSources.indexOf("http://feeds.bbci.co.uk/news/rss.xml?edition=uk") >=0){ %>
+		<label><input type="checkbox" name="news" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk" checked>BBC</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk">BBC</label>
+	<% }%>
+
 	</div>
 	</div>
 	<div class="col-xs-4"></div>
@@ -57,7 +88,19 @@
 	<div class="col-xs-4"></div>
 	<div class="col-xs-4">
 	<div class="checkbox">
-	  <label><input type="checkbox" value="">CNBC</label>
+
+	<!-- ===================== CNBC ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" value="http://www.cnbc.com/id/100003114/device/rss/rss.html">CNBC</label>
+	<%}else if(user.favSources.indexOf("http://www.cnbc.com/id/100003114/device/rss/rss.html") >=0){ %>
+		<label><input type="checkbox" name="news" value="http://www.cnbc.com/id/100003114/device/rss/rss.html" checked>CNBC</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" value="http://www.cnbc.com/id/100003114/device/rss/rss.html">CNBC</label>
+	<% }%>
+
+
+
+	  
 	</div>
 	</div>
 	<div class="col-xs-4"></div>
@@ -67,15 +110,26 @@
 	<div class="col-xs-4"></div>
 	<div class="col-xs-4">
 	<div class="checkbox">
-	  <label><input type="checkbox" value="">Fox</label>
+
+	<!-- ===================== FOX ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" value="http://feeds.foxnews.com/foxnews/latest">Fox</label>
+	<%}else if(user.favSources.indexOf("http://feeds.foxnews.com/foxnews/latest") >=0){ %>
+		<label><input type="checkbox" name="news" value="http://feeds.foxnews.com/foxnews/latest" checked>Fox</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" value="http://feeds.foxnews.com/foxnews/latest">Fox</label>
+	<% }%>
+
+	 
 	</div>
 	</div>
 	<div class="col-xs-4"></div>
 	</div>
-	
 	<p class ="text-center">     </p>
 	
 	<p class ="text-center"> Don't see a certain source listed? Type the URL of the News Source you're looking for and we'll see if we can add it!</p>
+
+
 	
 	<div class="row">
 	<div class="col-xs-4"></div>
@@ -84,7 +138,8 @@
 	  <label for="comment">Additional Site Name:</label>
 	  <textarea class="form-control" rows="1" id="comment"></textarea>
 	</div>
+	<input type="submit" value="Submit">
 	</div>
-  
+  </form>
   </body>
   </html>

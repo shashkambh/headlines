@@ -136,7 +136,8 @@ function addUser(req, username, password, done){
 				var hash = bcrypt.hashSync(password, 8);
 				newUser = {
 					'username': username,
-					'password': hash
+					'password': hash,
+					'favSources': []
 				};
 				users.insert(newUser);
 				req.session.success = 'You are successfully registered ' + newUser.username + '!';
@@ -157,13 +158,39 @@ function userLogin(req, username, password, done){
 			if(user && bcrypt.compareSync(password, user.password)){
 				req.session.success = 'You are successfully logged in '+ user.username + '!';
 				done(null, user);
-			} else {
+			}
+			else {
 				req.session.loginerror = 'Could not log user in. Please try again.';
 				done(false);
 			}
 		});
     });
 }
+
+
+
+function addUserFeed(req, res, user, rssSources){
+	 connect(function() {
+	 	var users = _db.collection('users');
+        var updatedUser = newUser = {
+					'username': user.username,
+					'password': user.password,
+					'favSources': rssSources
+				};
+
+        users.update({username: user.username}, 
+        	{$set: {favSources: rssSources}}, 
+        	{upsert: true});
+
+        req.login(updatedUser, function(err) {
+        	if (err) return err;
+        		console.log("After relogin: "+req.session.passport.updatedUser.changedField)
+        		res.send(200)
+    		});
+        
+	});
+}
+
 
 module.exports.testConnect = connect;
 module.exports.addFeed = addFeed;
@@ -175,4 +202,5 @@ module.exports.getAllFeedLinks = getAllFeedLinks;
 module.exports.getMostRecentArticles = getMostRecentArticles;
 module.exports.addUser = addUser;
 module.exports.userLogin = userLogin;
+module.exports.addUserFeed = addUserFeed;
 

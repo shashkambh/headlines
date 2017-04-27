@@ -2,6 +2,9 @@ var express = require('express');
 var passport = require('passport');
 var router = express.Router();
 var rssTest = require('../scripts/rss.js')
+var bodyParser = require('body-parser');
+var database = require('../scripts/database.js')
+
 // ============= USER ROUTES ==============
 
 function isLoggedIn(req, res, next) {
@@ -41,7 +44,13 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/preferences', function(req, res, next) {
-	res.render('preferences', {title: "Settings"});
+	res.render('preferences', {title: "Settings", user: req.user});
 }); 
+
+
+router.post('/preferences', function(req, res){
+    database.addUserFeed(req, res, req.user, req.body.news);
+    res.redirect('/');
+});  
 
 module.exports = router;
