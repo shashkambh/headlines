@@ -36,6 +36,26 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+// Session-persisted message middleware
+app.use(function(req, res, next){
+  var signuperr = req.session.signuperror,
+      loginerr = req.session.loginerror
+      msg = req.session.notice,
+      success = req.session.success;
+
+  delete req.session.signuperror;
+  delete req.session.loginerror;
+  delete req.session.success;
+  delete req.session.notice;
+
+  if (signuperr) res.locals.signuperror = signuperr;
+  if (loginerr) res.locals.loginerror = loginerr;
+  if (msg) res.locals.notice = msg;
+  if (success) res.locals.success = success;
+
+  next();
+});
+
 
 // Routes
 app.use('/', routes);
@@ -45,23 +65,7 @@ app.use('/', users);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);// Session-persisted message middleware
-app.use(function(req, res, next){
-  var err = req.session.error,
-      msg = req.session.notice,
-      success = req.session.success;
-
-  delete req.session.error;
-  delete req.session.success;
-  delete req.session.notice;
-
-  if (err) res.locals.error = err;
-  if (msg) res.locals.notice = msg;
-  if (success) res.locals.success = success;
-
-  next();
-});
-
+  next(err);
 //app.use(app.router);
 });
 

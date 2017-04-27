@@ -12,7 +12,7 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get('/login', function(req, res){
-	res.render('signup.ejs', { title: "Login", error: req.session.loginerror });
+	res.render('signup.ejs', { title: "Login", error: res.locals.loginerror });
 });
 
 router.post('/login', passport.authenticate('local-signin', {
@@ -22,7 +22,7 @@ router.post('/login', passport.authenticate('local-signin', {
 }));
 
 router.get('/signup', function(req, res){
-	res.render('signup.ejs', { title: "Signup", error: req.session.signuperror });
+	res.render('signup.ejs', { title: "Signup", error: res.locals.signuperror });
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
@@ -36,7 +36,7 @@ router.post('/signup', passport.authenticate('local-signup', {
 router.get('/logout', function(req, res){
   var name = req.user.username;
   req.logout();
-  req.session.notice = "You have successfully been logged out " + name + "!";
+  //res.locals.notice = "You have successfully been logged out " + name + "!";
   res.redirect('/');
 });
 
