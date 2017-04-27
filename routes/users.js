@@ -49,7 +49,7 @@ router.get('/preferences', function(req, res, next) {
 
 
 router.post('/preferences', function(req, res){
-    database.addUserFeed(req.user, req.body.news);
+    database.addUserFeed(req, res, req.user, req.body.news);
     res.redirect('/');
 });  
 

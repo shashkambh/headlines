@@ -157,6 +157,7 @@ function userLogin(req, username, password, done){
 			if(err) throw err;
 			if(user && bcrypt.compareSync(password, user.password)){
 				req.session.success = 'You are successfully logged in '+ user.username + '!';
+				console.log("you are logged in");
 				done(null, user);
 			}
 			else {
@@ -169,29 +170,25 @@ function userLogin(req, username, password, done){
 
 
 
-function addUserFeed(user, rssSources){
+function addUserFeed(req, res, user, rssSources){
 	 connect(function() {
 	 	var users = _db.collection('users');
-	 	
-        //console.log("user!!!", user);
-        //console.log("rssSources$$$", rssSources);
-        //user.favSources = rssSources;
+        var updatedUser = newUser = {
+					'username': user.username,
+					'password': user.password,
+					'favSources': rssSources
+				};
+
         users.update({username: user.username}, 
         	{$set: {favSources: rssSources}}, 
         	{upsert: true});
-        console.log("updated user", user);
-        /*
-        users.findAndModify({username: user.username}, [],
-         {$set: {favSources: rssSources}}, {},
-         function(err, object) {
-      		if (err){
-          		console.warn(err.message);  // returns error if no matching object found
-      		}else{
-          		console.dir(object);
-      		}
-  		});
-        console.log("lol", user);
-    }); */
+
+        req.login(updatedUser, function(err) {
+        	if (err) return err;
+        		console.log("After relogin: "+req.session.passport.updatedUser.changedField)
+        		res.send(200)
+    		});
+        
 	});
 }
 
