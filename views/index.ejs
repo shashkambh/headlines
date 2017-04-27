@@ -39,13 +39,15 @@
             </div>
         <div>
 
-            <% user.favSources.forEach(function(source) {
+            <% if(user.favSources != null){
+            
+            user.favSources.forEach(function(source) {
              %>
              <div>
             <p> <%= source %> </p>
             </div>
-            <% });%>
-           
+            <% }); }%>
+            
         </div>
         </div>
         <% for(article in feedData) { %>
