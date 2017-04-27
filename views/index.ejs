@@ -38,7 +38,14 @@
                     </p>
             </div>
         <div>
-            <p> Show news articles here! <%= user.favSources %></p>
+
+            <% user.favSources.forEach(function(source) {
+             %>
+             <div>
+            <p> <%= source %> </p>
+            </div>
+            <% });%>
+           
         </div>
         </div>
         <% for(article in feedData) { %>
