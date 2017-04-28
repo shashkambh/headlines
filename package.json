@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-      "start": "nodemon --verbose -e css,ejs,js bin/www",
-      "run": "mongod --fork --logpath ./log/mongodb.log --dbpath ./data && nodemon --verbose -e css,ejs,js bin/www && mongod --shutdown --dbpath ./data",
-      "structure": "tree -I 'node_modules|log|data'",
-      "clear": "rm -r log data && mkdir log data"
+    "start": "nodemon --verbose -e css,ejs,js bin/www",
+    "run": "mongod --fork --logpath ./log/mongodb.log --dbpath ./data && nodemon --verbose -e css,ejs,js bin/www && mongod --shutdown --dbpath ./data",
+    "structure": "tree -I 'node_modules|log|data'",
+    "clear": "rm -r log data && mkdir log data"
   },
   "dependencies": {
     "bcryptjs": "^0.7.12",
@@ -19,6 +19,7 @@
     "express": "~4.13.4",
     "express-session": "latest",
     "feedparser": "^2.1.0",
+    "jasmine": "^2.6.0",
     "mongodb": "^2.2.25",
     "morgan": "~1.7.0",
     "nodemon": "^1.11.0",
