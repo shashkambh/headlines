@@ -28,16 +28,16 @@
 					<label>Password</label>
 					<input type="password" class="form-control" name="password">
 				</div>
-				<button type="submit" class="btn btn-warning btn-lg"><%= title %></button>
+				<button type="submit" class="btn btn-warning btn-lg" name=<%= title %>><%= title %></button>
 			</form>
 
 			<hr>
 			<% if (title === "Signup") { %>
-			<p>Already have an account? <a href="/login">Login</a></p>
+			<p>Already have an account? <a href="/login" name="login">Login </a></p>
 			<% } else if(title === "Login") { %>
-			<p>Need an account? <a href="/signup">Signup</a></p>
+			<p>Need an account? <a href="/signup" name="signup">Signup</a></p>
 			<% } %>
-			<p>Or go <a href="/">home</a>.</p>
+			<p>Or go <a href="/" name="home">home</a>.</p>
 
 		</div>
 	</div>
