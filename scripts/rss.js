@@ -49,39 +49,20 @@ function updateAllFeeds(feeds, err){
     });
 }
 
-function updateFeedData() {
-    dbinterface.getMostRecentArticles(function(docs, err) {
-        feedData = {};
-        for(articles in docs) {
-            feedData.concat(articles);
-        }
-    });
-}
-
-
-
-/* Updates all feeds every hour 
+// Updates all feeds every hour 
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
-*/
 
 
-module.exports.test = function(){
-    dbinterface.addSource('xkcd', "http://xkcd.com/rss.xml");
-    dbinterface.getFeedLinks(updateAllFeeds);
-}
+dbinterface.addSource('xkcd', 'http://xkcd.com/rss.xml');
+dbinterface.addSource('BBC', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk');
+dbinterface.addSource('CNBC', 'http://www.cnbc.com/id/100003114/device/rss/rss.html');
+dbinterface.addSource('FOX', 'http://feeds.foxnews.com/foxnews/latest');
+dbinterface.addSource('CNN', 'http://rss.cnn.com/rss/cnn_topstories.rss');
+dbinterface.addSource('Yahoo', 'http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5');
 
-function initialize(){
-    dbinterface.addSource('xkcd', 'http://xkcd.com/rss.xml');
-    dbinterface.addSource('BBC', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk');
-    dbinterface.addSource('CNBC', 'http://www.cnbc.com/id/100003114/device/rss/rss.html');
-    dbinterface.addSource('FOX', 'http://feeds.foxnews.com/foxnews/latest');
-    dbinterface.addSource('CNN', 'http://rss.cnn.com/rss/cnn_topstories.rss');
-    dbinterface.addSource('Yahoo', 'http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5');
-
-    dbinterface.getFeedLinks(updateAllFeeds);
-}
+dbinterface.getFeedLinks(updateAllFeeds);
 
 
 module.exports.feedData = feedData;
