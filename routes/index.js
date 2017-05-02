@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var database = require('../scripts/database.js');
+var rss = require('../scripts/rss.js');
 
 /* GET home page. */
-/* TODO: articles come from database */
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'Headlines', articles: [], user: req.user });
+    var sourceList = rss.defaults;
+    if(req.user && req.user.favSources !== []){
+        sourceList = req.user.favSources;
+    }
+    database.getArticleList(sourceList, function(articleList, err){
+        if(err) throw err;
+        res.render('index', {articles: articleList, user:req.user});
+    })
 });
 
 module.exports = router;
