@@ -6,13 +6,13 @@ var rss = require('../scripts/rss.js');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var sourceList = rss.defaults;
-    if(req.user && req.user.favSources !== []){
+    if(req.user && req.user.favSources && req.user.favSources.length !== 0){
         sourceList = req.user.favSources;
     }
-    database.getArticleList(sourceList, function(articleList, err){
+    database.getArticlesFeedList(sourceList, 2, function(articleList, err){
         if(err) throw err;
         res.render('index', {articles: articleList, user:req.user});
-    })
+    });
 });
 
 module.exports = router;

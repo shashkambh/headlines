@@ -13,6 +13,8 @@ var connect = function(callback) {
 		MongoClient.connect(url, function(err, db) {
             if(err) throw err;
 		  	_db = db;
+		  	var sources = _db.collection('sources');
+		  	sources.createIndex( {"feed_link": 1}, { unique: true } ); /* faster */
 		  	return callback();
 		});
 	} else {
@@ -108,6 +110,30 @@ function getAllFeedLinks(callback) {
 }
 
 /*
+ * Returns 'limit' (#) articles for given list of feedLinks
+ */
+function getArticlesFeedList(feedLinks, limit, callback) {
+	feedLinks = [].concat(feedLinks);
+	connect(function() {
+		var sources = _db.collection('sources');
+		sources.find({feed_link : {
+			$in : feedLinks
+		}},
+		{articles : {$slice : limit}, _id: 0, feed_link: 0}).
+		toArray(function(err, docs) {
+			var output = []
+			for(var i = 0; i < docs.length; i++) {
+				for(var j = 0; j < docs[i].articles.length; j++) {
+					docs[i].articles[j].feed = docs[i].name;
+				}
+				output = output.concat(docs[i].articles);
+			}
+			callback(output, err);
+		});
+	});
+}
+
+/*
  * Runs find all, for debugging
  */
 function printSources() {
@@ -172,7 +198,7 @@ function userLogin(req, username, password, done){
 function addUserFeed(req, res, user, rssSources){
 	 connect(function() {
 	 	var users = _db.collection('users');
-        var updatedUser = newUser = {
+        var updatedUser = {
 					'username': user.username,
 					'password': user.password,
 					'favSources': rssSources
@@ -203,4 +229,5 @@ module.exports.getMostRecentArticles = getMostRecentArticles;
 module.exports.addUser = addUser;
 module.exports.userLogin = userLogin;
 module.exports.addUserFeed = addUserFeed;
+module.exports.getArticlesFeedList = getArticlesFeedList;
 
