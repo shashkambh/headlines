@@ -119,7 +119,14 @@
 		<label><input type="checkbox" name="news" id="CNBC" value="http://www.cnbc.com/id/100003114/device/rss/rss.html">CNBC</label>
 	<% }%>
 
-
+	<!-- ===================== XKCD ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" id="xkcd" value="https://xkcd.com/rss.xml">XKCD</label>
+	<%}else if(user.favSources.indexOf("http://www.cnbc.com/id/100003114/device/rss/rss.html") >=0){ %>
+		<label><input type="checkbox" name="news" id="xkcd" value="https://xkcd.com/rss.xml" checked>XKCD</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" id="xkcd" value="https://xkcd.com/rss.xml">XKCD</label>
+	<% }%>
 
 	  
 	</div>

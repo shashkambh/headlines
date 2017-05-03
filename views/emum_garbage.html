@@ -1,0 +1,248 @@
+<!-- ============== CNN ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" id="CNN" name="news" value="http://rss.cnn.com/rss/cnn_topstories.rss">CNN</label>
+	<%}else if(user.favSources.indexOf("http://rss.cnn.com/rss/cnn_topstories.rss") >=0){ %>
+		<label><input type="checkbox" name="news" id="CNN" value="http://rss.cnn.com/rss/cnn_topstories.rss" checked>CNN</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" id="CNN" value="http://rss.cnn.com/rss/cnn_topstories.rss">CNN</label>
+	<% }%>
+
+	</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+
+	<!-- ============== Yahoo ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" id="Yahoo" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5">Yahoo</label>
+	<%}else if(user.favSources.indexOf("http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5") >=0){ %>
+		<label><input type="checkbox" id="Yahoo" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5" checked>Yahoo</label>
+	<%} else{ %>
+		<label><input type="checkbox" id="Yahoo" name="news" value="http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5">Yahoo</label>
+	<% }%>
+	
+	</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+
+
+	<!-- ===================== BBC ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" id="BBC" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk">BBC</label>
+	<%}else if(user.favSources.indexOf("http://feeds.bbci.co.uk/news/rss.xml?edition=uk") >=0){ %>
+		<label><input type="checkbox" name="news" id="BBC" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk" checked>BBC</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" id="BBC" value="http://feeds.bbci.co.uk/news/rss.xml?edition=uk">BBC</label>
+	<% }%>
+
+	</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+
+	<!-- ===================== CNBC ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" id="CNBC" value="http://www.cnbc.com/id/100003114/device/rss/rss.html">CNBC</label>
+	<%}else if(user.favSources.indexOf("http://www.cnbc.com/id/100003114/device/rss/rss.html") >=0){ %>
+		<label><input type="checkbox" name="news" id="CNBC" value="http://www.cnbc.com/id/100003114/device/rss/rss.html" checked>CNBC</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" id="CNBC" value="http://www.cnbc.com/id/100003114/device/rss/rss.html">CNBC</label>
+	<% }%>
+
+
+
+	  
+	</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+
+
+
+
+	<!-- ===================== FOX ============================== -->
+	<%if(user.favSources == null || user.favSources.length <= 0){ %>
+		<label><input type="checkbox" name="news" id="Fox" value="http://feeds.foxnews.com/foxnews/latest">Fox</label>
+	<%}else if(user.favSources.indexOf("http://feeds.foxnews.com/foxnews/latest") >=0){ %>
+		<label><input type="checkbox" name="news" id="Fox" value="http://feeds.foxnews.com/foxnews/latest" checked>Fox</label>
+	<%} else{ %>
+		<label><input type="checkbox" name="news" id="Fox" value="http://feeds.foxnews.com/foxnews/latest">Fox</label>
+	<% }%>
+
+
+
+		<!-- ========== ENUMS for check boxes ========== -->
+
+	<p> favorites!!! <%= user.favSources %> oh boy </p>
+
+
+	<%var newsEnum = {
+		Fox: "http://feeds.foxnews.com/foxnews/latest", 
+		CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
+		CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
+		BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
+		Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5" 	
+	};
+	//set all checkboxes to empty
+	if(user.favSources == null || user.favSources.length <= 0){ 
+		for(news in newsEnum){%>
+		<label><input type="checkbox" id = <% news %> name="news" value= <% newsEnum.news %> > <%= news %></label>
+
+		</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	<%  } 
+	} else{
+	
+	for(news in newsEnum){%>
+	<p> <%= newsEnum[news] %> </p>
+		<% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
+			<p> here!!! </p>
+			<label><input type="checkbox" name="news" id=<%= news %> value=<%= newsEnum.news %> checked> <%= news %></label>
+	<% } else { %>
+			<p> nope here </p>
+			<label><input type="checkbox" name="news" id=<%= news %> value=<%= newsEnum.news %> > <%= news %></label>
+	 <% } %>
+	 	 </div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	 <%} 
+	 }%>
+
+
+
+
+<!-- ========== ENUMS for check boxes ========== -->
+
+	<p> favorites!!! <%= user.favSources %> oh boy </p>
+
+
+	<%var newsEnum = {
+		Fox: "http://feeds.foxnews.com/foxnews/latest", 
+		CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
+		CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
+		BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
+		Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5" 	
+	};
+	//set all checkboxes to empty
+	if(user.favSources == null || user.favSources.length <= 0){ 
+		for(news in newsEnum){%>
+		<label><input type="checkbox" id = news  name="news" value = newsEnum[news] > <%= news %></label>
+
+		</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	<%  } 
+	} else{
+	
+	for(news in newsEnum){%>
+	<p> <%= newsEnum[news] %> </p>
+		<% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
+			<p> here!!! </p>
+			<label><input type="checkbox" name="news" id= news value=newsEnum[news] checked> <%= news %></label>
+	<% } else { %>
+			<p> nope here </p>
+			<label><input type="checkbox" name="news" id = news value=newsEnum[news]> <%= news %></label>
+	 <% } %>
+	 	 </div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	 <%} 
+	 }%>\
+
+
+
+	 <!-- ========== ENUMS for check boxes ========== -->
+
+	<p> favorites!!! <%= user.favSources %> oh boy </p>
+
+
+	<%var newsEnum = {
+		Fox: "http://feeds.foxnews.com/foxnews/latest", 
+		CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
+		CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
+		BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
+		Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5" 	
+	};
+	//set all checkboxes to empty
+	if(user.favSources == null || user.favSources.length <= 0){ 
+		for(news in newsEnum){%>
+		<label><input type="checkbox" id = news  name="news" value = newsEnum[news] > <%= news %></label>
+
+		</div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	<%  } 
+	} else{
+	
+	for(news in newsEnum){%>
+	<p> newsEnum[news] here %%%% <%= newsEnum[news] %> </p>
+		<% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
+			<p> here!!! </p>
+			<label><input type="checkbox" name="news" id= "<% news %>" value= "<% newsEnum[news] %>"  checked> <%= news %></label>
+	<% } else { %>
+			<p> nope here </p>
+			<label><input type="checkbox" name="news" id= "<% news %>" value= "<% newsEnum[news]  %>" > <%= news %></label>
+	 <% } %>
+	 	 </div>
+	</div>
+	<div class="col-xs-4"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<div class="checkbox">
+	 <%} 
+	 }%>
