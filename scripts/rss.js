@@ -37,7 +37,7 @@ function updateFeed(site){
     });
     
     fp.on('error', function(){
-        console.log('Error in feed parsing.');
+        console.log('Error in feed parsing for ', site);
     });
 }
 
