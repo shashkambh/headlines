@@ -3,7 +3,7 @@ var request = require('request');
 var CronJob = require('cron').CronJob;
 var dbinterface = require('./database.js');
 
-var feedData = []
+var feedData = {};
 
 /* Sends an HTTP request to an RSS feed specified by the parameter.
  * Then sends the updated feed data to the database.
@@ -15,7 +15,7 @@ function updateFeed(site){
 
     req.on('response', function(res){
         var stream = this;
-        if(res.statusCode !== 200){
+        if(res.statusCode !== 200) {
             this.emit('error', new Error('failed'));
         } else {
             stream.pipe(fp);
@@ -36,6 +36,9 @@ function updateFeed(site){
         dbinterface.updateArticleList(site, items);
     });
     
+    fp.on('error', function(){
+        console.log('Error in feed parsing.');
+    });
 }
 
 /* Function passed into getFeedLinks, called with list of feed names
@@ -43,33 +46,26 @@ function updateFeed(site){
  */
 function updateAllFeeds(feeds, err){
 	if(err) return;
-	
     feeds.forEach(function(element){
         updateFeed(element.feed_link);
     });
 }
 
-function updateFeedData() {
-    dbinterface.getMostRecentArticles(function(docs, err) {
-        feedData = []
-        for(articles in docs) {
-            feedData.concat(articles);
-        }
-    });
-}
-
-
-
-/* Updates all feeds every hour 
+// Updates all feeds every hour 
 new CronJob('0 0 * * * *', function(){
 	dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
-*/
 
 
-module.exports.test = function(){
-    dbinterface.addSource('xkcd', "http://xkcd.com/rss.xml");
-    dbinterface.getFeedLinks(updateAllFeeds);
-}
+dbinterface.addFeed('xkcd', 'http://xkcd.com/rss.xml');
+dbinterface.addFeed('BBC', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk');
+dbinterface.addFeed('CNBC', 'http://www.cnbc.com/id/100003114/device/rss/rss.html');
+dbinterface.addFeed('FOX', 'http://feeds.foxnews.com/foxnews/latest');
+dbinterface.addFeed('CNN', 'http://rss.cnn.com/rss/cnn_topstories.rss');
+dbinterface.addFeed('Yahoo', 'http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5');
+
+dbinterface.getFeedLinks(updateAllFeeds);
+
 
 module.exports.feedData = feedData;
+module.exports.defaults = ['http://xkcd.com/rss.xml', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk'];
