@@ -34,7 +34,7 @@
         </div>
     </div>
 
- 	
+    
   <p class ="text-center"> Welcome to the News Application Headlines, <%= user.username %>!</p>
 <p class ="text-center"> Please select from the following News Sources to be in your Newsfeed.
 <p class ="text-center"><b> Source Options:</b> </p>
@@ -42,74 +42,105 @@
  <!-- ========== ENUMS for check boxes ========== -->
 
  <div class="row">
-	<div class="col-xs-4"></div>
-	<div class="col-xs-4">
-	<div class="checkbox">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+    <div class="checkbox">
 
-	<%var newsEnum = {
-		Fox: "http://feeds.foxnews.com/foxnews/latest", 
-		CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
-		CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
-		BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
-		Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5",
-		XKCD: "https://xkcd.com/rss.xml",
-		ESPN: "http://www.espn.com/espn/rss/news",
-		NFL: "http://www.espn.com/espn/rss/nfl/news",
-		Tennis: "http://www.atpworldtour.com/en/media/rss-feed/xml-feed"
+    <%var newsEnum = {
+        Fox: "http://feeds.foxnews.com/foxnews/latest", 
+        CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
+        CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
+        BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
+        Reuters: "http://feeds.reuters.com/reuters/topNews",
+        NYT: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        BuzzFeed: "https://www.buzzfeed.com/tag/rss",
+        PBS: "http://feeds.feedburner.com/NewshourHeadlines",
+        KXAN: "http://kxan.com/feed/",
+        ABCTX: "http://abc13.com/feed/",
+        TexasTribune: "https://www.texastribune.org/feeds/top-stories/"
+    };
 
-	};
-	//set all checkboxes to empty
-	if(user.favSources == null || user.favSources.length <= 0){ 
-		for(news in newsEnum){%>
-		<label><input type="checkbox" id = news  name="news" value = newsEnum[news] > <%= news %></label>
+    var sportsEnum = {
+        ESPN: "http://www.espn.com/espn/rss/news",
+        NFL: "http://www.espn.com/espn/rss/nfl/news",
+        Tennis: "http://www.atpworldtour.com/en/media/rss-feed/xml-feed",
+        FoxSports: "https://api.foxsports.com/v1/rss?partnerKey=zBaFxRyGKCfxBagJG9b8pqLyndmvo7UU",
+        B1G: "http://btn.com/feed/",
+        B1GWisconsin: "http://btn.com/schools/wisconsin/feed/",
+        UTSports: "http://www.texassports.com/rss.aspx"
 
-		</div>
-	</div>
-	<div class="col-xs-4"></div>
-	</div>
-	
-	<div class="row">
-	<div class="col-xs-4"></div>
-	<div class="col-xs-4">
-	<div class="checkbox">
-	<%  } 
-	} else{
-		var counter = 0;
-	for(news in newsEnum){%>
-		<% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
-			
-			<label><input type="checkbox" name="news" id= "<%= news %>" value= <%= newsEnum[news] %>  checked> <%= news %></label>
-	<% } else { %>
-			
-			<label><input type="checkbox" name="news" id= <%= news %> value= <%= newsEnum[news]%> > <%= news %></label>
-	 <% } %>
-	 	 </div>
-	</div>
-	<div class="col-xs-4"></div>
-	</div>
-	
-	<div class="row">
-	<div class="col-xs-4"></div>
-	<div class="col-xs-4">
-	<div class="checkbox">
-	 <%} 
-	 }%>
+    }
 
-	
+    var miscellaneousEnum = {
+        XKCD: "https://xkcd.com/rss.xml",
+        reddit: "http://www.reddit.com/.rss"
+        
+    }
+
+    var technologyEnum = {
+        Reuters: "http://feeds.reuters.com/reuters/technologyNews",
+        Wired: "https://www.wired.com/feed/",
+        Nature: "http://feeds.nature.com/nature/rss/current",
+        BBC: "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk#",
+        PBS: "http://feeds.feedburner.com/ScienceTechnologyPBSNewsHour",
+        ScienceDailyTech: "https://rss.sciencedaily.com/top/technology.xml",
+        ScienceDailyScience: "https://rss.sciencedaily.com/top/science.xml",
+        ScienceDailyBlackHoles: "https://rss.sciencedaily.com/space_time/black_holes.xml"
+    }
+
+
+    //set all checkboxes to empty
+    if(user.favSources == null || user.favSources.length <= 0){ 
+        for(news in newsEnum){%>
+        <label><input type="checkbox" id = news  name="news" value = newsEnum[news] > <%= news %></label>
+
+        </div>
+    </div>
+    <div class="col-xs-4"></div>
+    </div>
+    
+    <div class="row">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+    <div class="checkbox">
+    <%  } 
+    } else{
+        var counter = 0;
+    for(news in newsEnum){%>
+        <% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
+            
+            <label><input type="checkbox" name="news" id= "<%= news %>" value= <%= newsEnum[news] %>  checked> <%= news %></label>
+    <% } else { %>
+            
+            <label><input type="checkbox" name="news" id= <%= news %> value= <%= newsEnum[news]%> > <%= news %></label>
+     <% } %>
+         </div>
+    </div>
+    <div class="col-xs-4"></div>
+    </div>
+    
+    <div class="row">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+    <div class="checkbox">
+     <%} 
+     }%>
+
+    
 <!-- here -->
 
 
 
-	<p class ="text-center">     </p>
-	
-	
-	<div class="row">
-	<div class="col-xs-4"></div>
-	<div class="col-xs-4">
-	
-	<input type="submit" name="submit" value="Submit">
-	<input type="button" onclick="location.href='/';" value="Cancel" />
-	</div>
+    <p class ="text-center">     </p>
+    
+    
+    <div class="row">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+    
+    <input type="submit" name="submit" value="Submit">
+    <input type="button" onclick="location.href='/';" value="Cancel" />
+    </div>
   </form>
   </body>
   </html>

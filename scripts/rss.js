@@ -11,7 +11,7 @@ var feedData = {};
 function updateFeed(site){
     var req = request(site);
     var fp = new FeedParser();
-	var items = [];
+    var items = [];
 
     req.on('response', function(res){
         var stream = this;
@@ -45,7 +45,7 @@ function updateFeed(site){
  * Calls updateFeed on every feed in the database
  */
 function updateAllFeeds(feeds, err){
-	if(err) return;
+    if(err) return;
     feeds.forEach(function(element){
         updateFeed(element.feed_link);
     });
@@ -53,19 +53,51 @@ function updateAllFeeds(feeds, err){
 
 // Updates all feeds every hour 
 new CronJob('0 0 * * * *', function(){
-	dbinterface.getFeedLinks(updateAllFeeds);
+    dbinterface.getFeedLinks(updateAllFeeds);
 }, null, true, 'America/Chicago');
 
 
-dbinterface.addFeed('xkcd', 'http://xkcd.com/rss.xml');
+// news
+
 dbinterface.addFeed('BBC', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk');
 dbinterface.addFeed('CNBC', 'http://www.cnbc.com/id/100003114/device/rss/rss.html');
 dbinterface.addFeed('FOX', 'http://feeds.foxnews.com/foxnews/latest');
 dbinterface.addFeed('CNN', 'http://rss.cnn.com/rss/cnn_topstories.rss');
-dbinterface.addFeed('Yahoo', 'http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5');
+dbinterface.addFeed('NFL', 'http://www.espn.com/espn/rss/nfl/news');
+dbinterface.addFeed('Tennis', 'http://www.atpworldtour.com/en/media/rss-feed/xml-feed');
+dbinterface.addFeed('Reuters', 'http://feeds.reuters.com/reuters/topNews');
+dbinterface.addFeed('NYT', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+dbinterface.addFeed('BuzzFeed', 'https://www.buzzfeed.com/tag/rss');
+dbinterface.addFeed('PBS', 'http://feeds.feedburner.com/NewshourHeadlines');
+dbinterface.addFeed('NYT', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+dbinterface.addFeed('BuzzFeed', 'https://www.buzzfeed.com/tag/rss');
+dbinterface.addFeed('KXAN', 'http://kxan.com/feed/');
+dbinterface.addFeed('TexasTribune', 'https://www.texastribune.org/feeds/top-stories/');
+dbinterface.addFeed('ABCTX', 'http://abc13.com/feed/');
+
+// sports
 dbinterface.addFeed('ESPN', 'http://www.espn.com/espn/rss/news');
 dbinterface.addFeed('NFL', 'http://www.espn.com/espn/rss/nfl/news');
 dbinterface.addFeed('Tennis', 'http://www.atpworldtour.com/en/media/rss-feed/xml-feed');
+dbinterface.addFeed('FoxSports', 'https://api.foxsports.com/v1/rss?partnerKey=zBaFxRyGKCfxBagJG9b8pqLyndmvo7UU');
+dbinterface.addFeed('B1G', 'http://btn.com/feed/');
+dbinterface.addFeed('B1GWisconsin', 'http://btn.com/schools/wisconsin/feed/');
+dbinterface.addFeed('UTSports', 'http://www.texassports.com/rss.aspx');
+
+// miscellaneous
+dbinterface.addFeed('xkcd', 'http://xkcd.com/rss.xml');
+dbinterface.addFeed('reddit', 'http://www.reddit.com/.rss');
+
+//technology
+dbinterface.addFeed('Reuters', 'http://feeds.reuters.com/reuters/technologyNews');
+dbinterface.addFeed('Wired', 'https://www.wired.com/feed/');
+dbinterface.addFeed('Nature', 'http://feeds.nature.com/nature/rss/current');
+dbinterface.addFeed('BBC', 'http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk#",');
+dbinterface.addFeed('PBS', 'http://feeds.feedburner.com/ScienceTechnologyPBSNewsHour');
+dbinterface.addFeed('ScienceDailyTech', 'https://rss.sciencedaily.com/top/technology.xml');
+dbinterface.addFeed('ScienceDailyScience', 'https://rss.sciencedaily.com/top/science.xml');
+dbinterface.addFeed('ScienceDailyBlackHoles', 'https://rss.sciencedaily.com/space_time/black_holes.xml');
+
 
 dbinterface.getFeedLinks(updateAllFeeds);
 
