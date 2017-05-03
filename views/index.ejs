@@ -25,6 +25,21 @@
             </ul>
         </div>
 
+        <% if(user) { %>
+            <div class="row">
+                <!-- LOCAL INFORMATION -->
+                <div class="col-xs-10 col-xs-offset-1">
+                    <div class="well">
+                        <h3><span class="fa fa-user"></span> Breaking News</h3>
+                            <p>
+                                <strong>Welcome <%= user.username %></strong>, here are your updates.<br>
+                            </p>
+                    </div>
+                
+                </div>
+            </div>
+        <% } %>
+
         <ul class="media-list">
         <% for(var i = 0; i < articles.length; i++) { %>
             <li class="row top10 bottom10">
@@ -38,28 +53,6 @@
         <% } %>
         </ul>
     </div>
-
-
-<% if(user) { %>
-    <div class="row">
-        <!-- LOCAL INFORMATION -->
-        <div class="col-xs-10 col-xs-offset-1">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Breaking News</h3>
-                    <p>
-                        <strong>Welcome</strong>: <%= user.username %><br>
-                    </p>
-            </div>
-        
-        </div>
-        <% for(article in feedData) { %>
-            <div class="row">
-                <div class=""
-                <p><%= article.title %></p>
-            </div>
-        <% } %>
-    </div>
-<% } %>
 
 </body>
 
