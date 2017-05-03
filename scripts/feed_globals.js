@@ -25,8 +25,7 @@ module.exports.links = {
         reddit: "http://www.reddit.com/.rss"
     },
     tech : {
-        Reuters: "http://feeds.reuters.com/reuters/technologyNews",
-        Wired: "https://www.wired.com/feed/",
+        ReutersTech: "http://feeds.reuters.com/reuters/technologyNews",
         Nature: "http://feeds.nature.com/nature/rss/current",
         BBC: "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk#",
         PBS: "http://feeds.feedburner.com/ScienceTechnologyPBSNewsHour",
