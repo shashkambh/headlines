@@ -113,6 +113,7 @@ function getAllFeedLinks(callback) {
  * Returns 'limit' (#) articles for given list of feedLinks
  */
 function getArticlesFeedList(feedLinks, limit, callback) {
+	feedLinks = [].concat(feedLinks);
 	connect(function() {
 		var sources = _db.collection('sources');
 		sources.find({feed_link : {
@@ -197,7 +198,7 @@ function userLogin(req, username, password, done){
 function addUserFeed(req, res, user, rssSources){
 	 connect(function() {
 	 	var users = _db.collection('users');
-        var updatedUser = newUser = {
+        var updatedUser = {
 					'username': user.username,
 					'password': user.password,
 					'favSources': rssSources
