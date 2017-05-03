@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/index.css" />
 </head>
- 
 <body>
     <div class="container">
         <div class="row">
@@ -16,26 +15,40 @@
             <ul class="nav nav-platforms col-xs-10 col-xs-offset-1">
                 <li role="presentation" class="active" name="home"><a href="/">Home</a></li>
                 <% if(user) { %>
-                <li role="presentation" class="active" name="preferences" ><a href="/preferences">Settings</a></li>
-                <li class="nav-right" ><a href="/logout" class="btn btn-default" name="logout"><span class="fa fa-user"></span>Logout</a></li>
+                    <li role="presentation" class="active" name="preferences" ><a href="/preferences">Settings</a></li>
+                    <li class="nav-right" >
+                        <a href="/logout" class="btn btn-default" name="logout">
+                            <span class="fa fa-user"></span>
+                            Logout
+                        </a>
+                    </li>
                 <% } else { %>
-                <li class="nav-right"><a href="/login" class="btn btn-default" name="login"><span class="fa fa-user"></span>Login</a></li>
-                <li class="nav-right"><a href="/signup" class="btn btn-default" name="signup"><span class="fa fa-user"></span>Signup</a></li>
+                    <li class="nav-right">
+                        <a href="/login" class="btn btn-default" name="login">
+                            <span class="fa fa-user"></span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-right">
+                        <a href="/signup" class="btn btn-default" name="signup">
+                            <span class="fa fa-user"></span>
+                            Signup
+                        </a>
+                    </li>
                 <% } %>
             </ul>
         </div>
 
         <% if(user) { %>
-            <div class="row">
+            <div class="row top10">
                 <!-- LOCAL INFORMATION -->
                 <div class="col-xs-10 col-xs-offset-1">
                     <div class="well">
                         <h3><span class="fa fa-user"></span> Breaking News</h3>
-                            <p>
-                                <strong>Welcome <%= user.username %></strong>, here are your updates.<br>
-                            </p>
+                        <p>
+                            <strong>Welcome <%= user.username %></strong>, here are your updates.<br>
+                        </p>
                     </div>
-                
                 </div>
             </div>
         <% } %>
@@ -54,6 +67,5 @@
         </ul>
     </div>
 </body>
-
-  <% include jsdefaults.ejs %>
+<% include jsdefaults.ejs %>
 </html>

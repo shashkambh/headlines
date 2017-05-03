@@ -1,9 +1,10 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
-var rssTest = require('../scripts/rss.js')
+var rssTest = require('../scripts/rss.js');
 var bodyParser = require('body-parser');
-var database = require('../scripts/database.js')
+var database = require('../scripts/database.js');
+var feedGlobals = require('../scripts/feed_globals.js');
 
 // ============= USER ROUTES ==============
 
@@ -44,9 +45,8 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/preferences', function(req, res, next) {
-	res.render('preferences', {title: "Settings", user: req.user});
+	res.render('preferences', {title: "Settings", user: req.user, links: feedGlobals.links});
 }); 
-
 
 router.post('/preferences', function(req, res){
     database.addUserFeed(req, res, req.user, req.body.news);
