@@ -118,10 +118,15 @@ function getArticlesFeedList(feedLinks, limit, callback) {
 		sources.find({feed_link : {
 			$in : feedLinks
 		}},
-		{articles : {$slice : limit}, _id: 0, feed_link: 0, name: 0}).
+		{articles : {$slice : limit}, _id: 0, feed_link: 0}).
 		toArray(function(err, docs) {
 			var output = []
-			for(var i = 0; i < docs.length; i++) output = output.concat(docs[i].articles);
+			for(var i = 0; i < docs.length; i++) {
+				for(var j = 0; j < docs[i].articles.length; j++) {
+					docs[i].articles[j].feed = docs[i].name;
+				}
+				output = output.concat(docs[i].articles);
+			}
 			callback(output, err);
 		});
 	});
