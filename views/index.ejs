@@ -25,22 +25,7 @@
             </ul>
         </div>
 
-        <ul class="media-list">
-        <% for(var i = 0; i < articles.length; i++) { %>
-            <li class="row top10 bottom10">
-                <div class="media col-xs-10 col-xs-offset-1">
-                    <div class="media-body">
-                        <h4 class="media-heading"><%= articles[i].title%></h4>
-                        <span><%= articles[i].feed %></span>
-                    </div>
-                </div>
-            </li>
-        <% } %>
-        </ul>
-    </div>
-
-
-<% if(user) { %>
+    <% if(user) { %>
     <div class="row">
         <!-- LOCAL INFORMATION -->
         <div class="col-xs-10 col-xs-offset-1">
@@ -60,6 +45,23 @@
         <% } %>
     </div>
 <% } %>
+
+        <ul class="media-list">
+        <% for(var i = 0; i < articles.length; i++) { %>
+            <li class="row top10 bottom10">
+                <div class="media col-xs-10 col-xs-offset-1">
+                    <div class="media-body">
+                        <h4 class="media-heading"><%= articles[i].title%></h4>
+                        <span><%= articles[i].feed %></span>
+                    </div>
+                </div>
+            </li>
+        <% } %>
+        </ul>
+    </div>
+
+
+
 
 </body>
 

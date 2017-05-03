@@ -63,6 +63,9 @@ dbinterface.addFeed('CNBC', 'http://www.cnbc.com/id/100003114/device/rss/rss.htm
 dbinterface.addFeed('FOX', 'http://feeds.foxnews.com/foxnews/latest');
 dbinterface.addFeed('CNN', 'http://rss.cnn.com/rss/cnn_topstories.rss');
 dbinterface.addFeed('Yahoo', 'http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5');
+dbinterface.addFeed('ESPN', 'http://www.espn.com/espn/rss/news');
+dbinterface.addFeed('NFL', 'http://www.espn.com/espn/rss/nfl/news');
+dbinterface.addFeed('Tennis', 'http://www.atpworldtour.com/en/media/rss-feed/xml-feed');
 
 dbinterface.getFeedLinks(updateAllFeeds);
 

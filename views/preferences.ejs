@@ -52,7 +52,11 @@
 		CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
 		BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
 		Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5",
-		XKCD: "https://xkcd.com/rss.xml" 	
+		XKCD: "https://xkcd.com/rss.xml",
+		ESPN: "http://www.espn.com/espn/rss/news",
+		NFL: "http://www.espn.com/espn/rss/nfl/news",
+		Tennis: "http://www.atpworldtour.com/en/media/rss-feed/xml-feed"
+
 	};
 	//set all checkboxes to empty
 	if(user.favSources == null || user.favSources.length <= 0){ 
@@ -70,7 +74,7 @@
 	<div class="checkbox">
 	<%  } 
 	} else{
-	
+		var counter = 0;
 	for(news in newsEnum){%>
 		<% if(user.favSources.indexOf(newsEnum[news].toString().trim()) >= 0){ %>
 			
