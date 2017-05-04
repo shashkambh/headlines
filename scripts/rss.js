@@ -20,6 +20,7 @@ function updateFeed(category, site, feed){
     req.on('response', function(res){
         var stream = this;
         if(res.statusCode !== 200) {
+            console.log(res);
             this.emit('error', new Error('failed'));
         } else {
             stream.pipe(fp);
@@ -59,7 +60,7 @@ function updateFeed(category, site, feed){
 function updateAllFeeds(){
     for(category in feedSources.links){
         for(site in feedSources.links[category]){
-            updateFeed(category, site, feedSources.links[category][site]);
+            updateFeed(category, site, feedSources.links[category][site].link);
         }
     }
 }
