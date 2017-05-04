@@ -31,7 +31,6 @@
             <h4> Sports </h4>
     			<% for(sportsFeed in links.sports) { %>
     				<div class="checkbox">
-                    
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.sports[sportsFeed].link)) { %>
     						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports[sportsFeed].link %>>
@@ -44,7 +43,7 @@
     			<% } %>
     			<br>
                 <h4> Miscellaneous </h4>
-    			<% for(miscFeed in links.misc.link) { %>
+    			<% for(miscFeed in links.misc) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.misc[miscFeed].link)) { %>
@@ -60,7 +59,7 @@
     		</div>
     		<div class="col-xs-2">
             <h4> News </h4>
-    			<% for(newsFeed in links.news.link) { %>
+    			<% for(newsFeed in links.news) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.news[newsFeed].link)) { %>
@@ -75,7 +74,7 @@
     		</div>
     		<div class="col-xs-2">
             <h4> Science and Technology </h4>
-    			<% for(techFeed in links.tech.link) { %>
+    			<% for(techFeed in links.tech) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.tech[techFeed].link)) { %>
