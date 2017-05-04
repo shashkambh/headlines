@@ -20,7 +20,6 @@ function updateFeed(category, site, feed){
     req.on('response', function(res){
         var stream = this;
         if(res.statusCode !== 200) {
-            console.log(res);
             this.emit('error', new Error('failed'));
         } else {
             stream.pipe(fp);
@@ -48,10 +47,7 @@ function updateFeed(category, site, feed){
         }
     });
     
-    fp.on('error', function(err){
-        console.log(err);
-        console.log('Error in feed parsing for ', site);
-    });
+    fp.on('error', function(err){ });
 }
 
 /* Function passed into getFeedLinks, called with list of feed names

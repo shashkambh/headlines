@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
     }
     database.getArticlesFeedList(sourceList, 20, function(articleList, err){
         if(err) throw err;
-        database.testPrintSources();
         res.render('index', {articles: articleList, user:req.user, links: feed_globals.links});
     });
 });
