@@ -13,8 +13,8 @@ var connect = function(callback) {
 		MongoClient.connect(url, function(err, db) {
             if(err) throw err;
 		  	_db = db;
-		  	var sources = _db.collection('sources');
-		  	sources.createIndex( {"feed_link": 1}, { unique: true } ); /* faster */
+		  	var articles = _db.collection('articles');
+		  	articles.createIndex( {"link": 1}, { unique: true } ); /* faster */
 		  	return callback();
 		});
 	} else {
@@ -24,7 +24,7 @@ var connect = function(callback) {
 
 /* 
  * Adds a feed
- */
+ *
 function addFeed(name, link) {
 	connect(function() {
 		var sources = _db.collection('sources');
@@ -38,7 +38,7 @@ function addFeed(name, link) {
 			{upsert: true}
 		);
 	});
-}
+}*/
 
 /* 
  * Return links to all feed sources
@@ -52,6 +52,17 @@ function getFeedLinks(callback) {
 	});
 }
 
+/*
+ * Adds items (articles) to collection
+ */
+function updateArticles(items, callback) {
+	connect(function() {
+		var articles = _db.collection('articles');
+		articles.insert(items, {ordered : false}, function(err, result) {
+			callback(result, err);
+		});
+	});
+}
 
 /* 
  * Updates a feed's article list given the URL and posts to add
@@ -120,17 +131,11 @@ function getArticlesFeedList(feedLinks, limit, callback) {
 		var sources = _db.collection('sources');
 		sources.find({feed_link : {
 			$in : feedLinks
-		}},
-		{articles : {$slice : limit}, _id: 0, feed_link: 0}).
+		}}).
+		limit(limit).
+		sort({date: -1}).
 		toArray(function(err, docs) {
-			var output = []
-			for(var i = 0; i < docs.length; i++) {
-				for(var j = 0; j < docs[i].articles.length; j++) {
-					docs[i].articles[j].feed = docs[i].name;
-				}
-				output = output.concat(docs[i].articles);
-			}
-			callback(output, err);
+			callback(docs, err);
 		});
 	});
 }
@@ -221,7 +226,7 @@ function addUserFeed(req, res, user, rssSources){
 
 
 module.exports.testConnect = connect;
-module.exports.addFeed = addFeed;
+//module.exports.addFeed = addFeed;
 module.exports.getFeedLinks = getFeedLinks;
 module.exports.updateArticleList = updateArticleList;
 module.exports.getFeedArticles = getFeedArticles;

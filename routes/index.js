@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     if(req.user && req.user.favSources !== []){
         sourceList = req.user.favSources;
     }
-    database.getArticlesFeedList(sourceList, 4, function(articleList, err){
+    database.getArticlesFeedList(sourceList, 20, function(articleList, err){
         if(err) throw err;
         res.render('index', {articles: articleList, user:req.user});
     });

@@ -1,7 +1,7 @@
 /* Contains RSS feed links */
 module.exports.links = {
 	news : {
-        Fox: "http://feeds.foxnews.com/foxnews/latest", 
+        Fox: "http://feeds.foxnews.com/foxnews/latest",
         CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
         CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
         BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
