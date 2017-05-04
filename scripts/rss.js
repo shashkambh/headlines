@@ -2,6 +2,7 @@ var FeedParser = require("feedparser");
 var request = require('request');
 var CronJob = require('cron').CronJob;
 var dbinterface = require('./database.js');
+var feedSources = require('./feed_globals.js');
 
 var feedData = {};
 var pendingFeeds = 0;
@@ -11,8 +12,9 @@ var items = [];
  * Then sends the updated feed data to the database.
  */
 function updateFeed(category, site, feed){
-    var req = request(site);
+    var req = request(feed);
     var fp = new FeedParser();
+    var articleCount = 0;
     pendingFeeds++;
 
     req.on('response', function(res){
@@ -30,7 +32,10 @@ function updateFeed(category, site, feed){
         var item;
         
         while (item = stream.read()){
-            items.push({title: item.title, link: item.link, date: item.date, category: category, site: site, feed_link: feed});
+            if(articleCount < 10){
+                items.push({title: item.title, link: item.link, date: item.date, category: category, site: site, feed_link: feed});
+            }
+            articleCount++;
         }
     });
 
@@ -51,26 +56,17 @@ function updateFeed(category, site, feed){
 /* Function passed into getFeedLinks, called with list of feed names
  * Calls updateFeed on every feed in the database
  */
-function updateAllFeeds(feeds, err){
-    for(site in feedSources.links.news){
-        updateFeed(category, site, feedSources.links.news[site]);
-    }
-
-    for(site in feedSources.links.sports){
-        updateFeed(category, site, feedSources.links.sports[site]);
-    }
-
-    for(site in feedSources.links.misc){
-        updateFeed(cateogory, site, feedSources.links.misc[site]);
-    }
-
-    for(site in feedSources.links.tech){
-        updateFeed(category, site, feedSources.links.tech[site]);
+function updateAllFeeds(){
+    for(category in feedSources.links){
+        for(site in feedSources.links[category]){
+            updateFeed(category, site, feedSources.links[category][site]);
+        }
     }
 }
+updateAllFeeds();
 
-// Updates all feeds every hour 
-new CronJob('0 0 * * * *', updateAllFeeds, null, true, 'America/Chicago');
+// Updates all feeds every day 
+new CronJob('0 0 0 * * *', updateAllFeeds, null, true, 'America/Chicago');
 
 module.exports.feedData = feedData;
 module.exports.defaults = ['http://xkcd.com/rss.xml', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk'];

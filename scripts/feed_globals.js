@@ -7,7 +7,6 @@ module.exports.links = {
         BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
         Reuters: "http://feeds.reuters.com/reuters/topNews",
         NYT: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-        BuzzFeed: "https://www.buzzfeed.com/tag/rss",
         PBS: "http://feeds.feedburner.com/NewshourHeadlines",
         KXAN: "http://kxan.com/feed/",
         ABCTX: "http://abc13.com/feed/",
@@ -19,13 +18,11 @@ module.exports.links = {
         Tennis: "http://www.atpworldtour.com/en/media/rss-feed/xml-feed",
         FoxSports: "https://api.foxsports.com/v1/rss?partnerKey=zBaFxRyGKCfxBagJG9b8pqLyndmvo7UU",
         B1G: "http://btn.com/feed/",
-        B1GWisconsin: "http://btn.com/schools/wisconsin/feed/",
-        UTSports: "http://www.texassports.com/rss.aspx"
+        B1GWisconsin: "http://btn.com/schools/wisconsin/feed/"
     },
     misc : {
         XKCD: "https://xkcd.com/rss.xml",
         reddit: "http://www.reddit.com/.rss"
-        
     },
     tech : {
         Reuters: "http://feeds.reuters.com/reuters/technologyNews",

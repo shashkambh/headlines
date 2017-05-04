@@ -56,11 +56,11 @@ function getFeedLinks(callback) {
  * Adds items (articles) to collection
  */
 function updateArticles(items, callback) {
+    var cb = callback ? callback : function(err, feeds){};
+
 	connect(function() {
 		var articles = _db.collection('articles');
-		articles.insert(items, {ordered : false}, function(err, result) {
-			callback(result, err);
-		});
+		articles.insertMany(items, {ordered : false}, cb);
 	});
 }
 
@@ -128,8 +128,8 @@ function getAllFeedLinks(callback) {
 function getArticlesFeedList(feedLinks, limit, callback) {
 	feedLinks = [].concat(feedLinks);
 	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find({feed_link : {
+		var articles = _db.collection('articles');
+		articles.find({feed_link : {
 			$in : feedLinks
 		}}).
 		limit(limit).
@@ -224,11 +224,11 @@ function addUserFeed(req, res, user, rssSources){
 	});
 }
 
-
 module.exports.testConnect = connect;
 //module.exports.addFeed = addFeed;
 module.exports.getFeedLinks = getFeedLinks;
 module.exports.updateArticleList = updateArticleList;
+module.exports.updateArticles = updateArticles;
 module.exports.getFeedArticles = getFeedArticles;
 module.exports.testPrintSources = printSources;
 module.exports.getAllFeedLinks = getAllFeedLinks;
