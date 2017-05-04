@@ -42,7 +42,6 @@
 
         <% if(user) { %>
             <div class="row top10">
-                <!-- LOCAL INFORMATION -->
                 <div class="col-xs-10 col-xs-offset-1">
                     <div class="well">
                         <h3><span class="fa fa-user"></span> Breaking News</h3>
@@ -58,12 +57,16 @@
         <% for(var i = 0; i < articles.length; i++) { %>
             <li class="row top10 bottom10">
                 <div class="media col-xs-10 col-xs-offset-1">
+                    <div class="media-left">
+                        <img class="media-object" src="<%= links[articles[i].category][articles[i].site].imgsrc %>" width=64 height=64>
+                    </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><%= articles[i].title%></h4>
-                        <span><%= articles[i].site %></span>
+                        <h4 class="media-heading"> <a href=<%=articles[i].link %>> <%= articles[i].title%> </a></h4>
+                        <span><%= articles[i].site %> <%= articles[i].date %></span>
                     </div>
                 </div>
             </li>
+
         <% } %>
         </ul>
     </div>

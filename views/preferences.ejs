@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html>
   <head>
    <title>Headlines</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/index.css" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Pacifico" />
   </head>
  
   <body>
@@ -14,7 +14,6 @@
 	            <div class="page-header col-xs-10 col-xs-offset-1">
 	                <h1 class="page-title">Headlines</h1>
 	            </div>
-
 	            <ul class="nav nav-platforms col-xs-10 col-xs-offset-1">
 	                <li role="presentation" class="active"><a href="/" name="home">Home</a></li>
 	            </ul>
@@ -29,28 +28,29 @@
 		
  		<div class="row">
     		<div class="col-xs-2 col-xs-offset-3">
+            <h4> Sports </h4>
     			<% for(sportsFeed in links.sports) { %>
     				<div class="checkbox">
     					<label>
-                            <% var currentLinkS = links.sports[sportsFeed]; %>
-    						<% if(user.favSources && user.favSources.length > 0 && user.favSources.includes(currentLinkS)) { %>
-    						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports[sportsFeed] %>>
+    						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.sports[sportsFeed].link)) { %>
+    						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports[sportsFeed].link %>>
     						<% } else { %>
-    						<input type="checkbox" id=<%= sportsFeed %> name="news" value=<%= links.sports[sportsFeed] %>>
+    						<input type="checkbox" id=<%= sportsFeed %> name="news" value=<%= links.sports[sportsFeed].link %>>
     						<% } %>
     						<%= sportsFeed %>
     					</label>
     				</div>
     			<% } %>
     			<br>
+                <h4> Miscellaneous </h4>
     			<% for(miscFeed in links.misc) { %>
     				<div class="checkbox">
     					<label>
-                            <% var currentLinkM = links.misc[miscFeed]; %>
-    						<% if(user.favSources && user.favSources.length > 0 && user.favSources.includes(currentLinkM)) { %>
-    						<input type="checkbox" id=<%= miscFeed %> name="news" checked value=<%= links.misc[miscFeed] %>>
+    						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.misc[miscFeed].link)) { %>
+    						<input type="checkbox" id=<%= miscFeed %> name="news" value=<%= links.misc[miscFeed].link %> checked>
+
     						<% } else { %>
-    						<input type="checkbox" id=<%= miscFeed %> name="news" value=<%= links.misc[miscFeed] %>>
+    						<input type="checkbox" id=<%= miscFeed %> name="news" value=<%= links.misc[miscFeed].link %>>
     						<% } %>
     						<%= miscFeed %>
     					</label>
@@ -58,14 +58,14 @@
     			<% } %>
     		</div>
     		<div class="col-xs-2">
+            <h4> News </h4>
     			<% for(newsFeed in links.news) { %>
     				<div class="checkbox">
     					<label>
-                            <% var currentLinkN = links.news[newsFeed]; %>
-    						<% if(user.favSources && user.favSources.length > 0 && user.favSources.includes(currentLinkN)) { %>
-    						<input type="checkbox" id=<%= newsFeed %> name="news" checked value=<%= links.news[newsFeed] %>>
+    						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.news[newsFeed].link)) { %>
+    						<input type="checkbox" id=<%= newsFeed %> name="news" checked value=<%= links.news[newsFeed].link %>>
     						<% } else { %>
-    						<input type="checkbox" id=<%= newsFeed %> name="news" value=<%= links.news[newsFeed] %>>
+    						<input type="checkbox" id=<%= newsFeed %> name="news" value=<%= links.news[newsFeed].link %>>
     						<% } %>
     						<%= newsFeed %>
     					</label>
@@ -73,14 +73,14 @@
     			<% } %>
     		</div>
     		<div class="col-xs-2">
+            <h4> Science and Technology </h4>
     			<% for(techFeed in links.tech) { %>
     				<div class="checkbox">
     					<label>
-                            <% var currentLinkT = links.tech[techFeed]; %>
-    						<% if(user.favSources && user.favSources.length > 0 && user.favSources.includes(currentLinkT)) { %>
-    						<input type="checkbox" id=<%= techFeed %> name="news" checked value=<%= links.tech[techFeed] %>>
+    						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.tech[techFeed].link)) { %>
+    						<input type="checkbox" id=<%= techFeed %> name="news" checked value=<%= links.tech[techFeed].link %>>
     						<% } else { %>
-    						<input type="checkbox" id=<%= techFeed %> name="news" value=<%= links.tech[techFeed] %>>
+    						<input type="checkbox" id=<%= techFeed %> name="news" value=<%= links.tech[techFeed].link %>>
     						<% } %>
     						<%= techFeed %>
     					</label>
@@ -88,11 +88,10 @@
     			<% } %>
     		</div>
     	</div>
-
-    	<div class="row col-xs-2 col-xs-offset-5">
-	    	<input class="btn btn-default" type="submit" name="submit" value="Submit">
-	    	<a class="btn btn-default" href="/">Cancel</a>
-		</div>
+        <div class="row col-xs-2 col-xs-offset-5">
+            <input class="btn btn-default" type="submit" name="submit" value="Submit">
+            <a class="btn btn-default" href="/">Cancel</a>
+        </div>
     </form>
   </body>
   </html>
