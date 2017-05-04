@@ -2,7 +2,7 @@
 module.exports.links = {
 	news : {
         Fox: {link: "http://feeds.foxnews.com/foxnews/latest", imgsrc: "/images/foxnews.png"}, 
-        CNN: {link: "http://rss.cnn.com/rss/cnn_topstories.rss", imgsrc: "/images/cnn.png"}, 
+        CNN: {link: "http://rss.cnn.com/rss/cnn_topstories.rss", imgsrc: "/images/cnn.jpeg"}, 
         CNBC: {link: "http://www.cnbc.com/id/100003114/device/rss/rss.html", imgsrc: "/images/cnbc.png"}, 
         BBC: {link: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", imgsrc: "/images/bbcnews.png"}, 
         Reuters: {link: "http://feeds.reuters.com/reuters/topNews", imgsrc: "/images/reuters.jpeg"},
