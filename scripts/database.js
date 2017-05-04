@@ -119,7 +119,6 @@ function addUserFeed(req, res, user, rssSources){
 
         req.login(updatedUser, function(err) {
         	if (err) return err;
-            res.send(200)
         });
         
 	});
