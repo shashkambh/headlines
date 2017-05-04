@@ -111,6 +111,8 @@ function getAllFeedLinks(callback) {
 
 /*
  * Returns 'limit' (#) articles for given list of feedLinks
+ * FIX: doesn't always return articles from everything in the feedLinks
+ * 		possibly because of $slice 
  */
 function getArticlesFeedList(feedLinks, limit, callback) {
 	feedLinks = [].concat(feedLinks);
