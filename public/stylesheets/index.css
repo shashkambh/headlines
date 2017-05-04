@@ -3,9 +3,20 @@
  * Aligns and centers the page title
  */
 
+body {
+     background-image: url('newspaper.jpg');
+     background-position: center; 
+}
+
 .page-title {
 	text-align: center;
 	font-size: 6vw;
+ 	font-family: Pacifico, sans-serif;
+	color: #FFFFFF;
+}
+
+.page-banner {
+	background-image: url('watercolor.jpg');
 }
 
 /*
