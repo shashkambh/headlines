@@ -6,7 +6,8 @@
     "start": "nodemon --verbose -e css,ejs,js bin/www",
     "run": "mongod --fork --logpath ./log/mongodb.log --dbpath ./data && nodemon --verbose -e css,ejs,js bin/www && mongod --shutdown --dbpath ./data",
     "structure": "tree -I 'node_modules|log|data'",
-    "clear": "rm -r log data && mkdir log data"
+    "clear": "rm -r log data && mkdir log data",
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
   },
   "dependencies": {
     "bcryptjs": "^0.7.12",

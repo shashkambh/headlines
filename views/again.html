@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<script type="text/javascript">
+
+function makeCheckboxes(id, value) {
+   var a = document.getElementById(id);
+   //var arr = str.split(",");
+   var returnStr = "";
+   //for (i = 0; i < arr.length; i++) {
+      returnStr += '<input type="checkbox" name="news" value="Yahoo" />';
+  // }
+   a.innerHTML = returnStr;
+}
+
+window.onload = function () {
+   var newsEnum = {
+      Fox: "http://feeds.foxnews.com/foxnews/latest", 
+      CNN: "http://rss.cnn.com/rss/cnn_topstories.rss", 
+      CNBC: "http://www.cnbc.com/id/100003114/device/rss/rss.html", 
+      BBC: "http://feeds.bbci.co.uk/news/rss.xml?edition=uk", 
+      Yahoo: "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5"   
+   };
+     // for(news in newsEnum){
+    //     makeCheckboxes(news);
+    //  }
+   //makeCheckboxes(newsEnum);
+   makeCheckboxes("Fox", "http://feeds.foxnews.com/foxnews/latest");
+   makeCheckboxes("Yahoo", "http://apps.shareholder.com/rss/rss.aspx?channels=632&companyid=YHOO&sh_auth=4350265862%2E0%2E0%2E42851%2E51676db2d98fa83fe60151eb8eced4b5");
+}
+
+</script>
+<style type="text/css"></style>
+</head>
+<body>
+   <table border="1">
+      <tr>
+         <td id="Fox"></td>
+         
+         <td>checkboxes should appear left of here</td>
+      </tr>
+   </table>
+
+   <table>
+   <script> 
+
+   </script>
+
+    </table>
+</body>
+</html>
