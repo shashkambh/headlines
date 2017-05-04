@@ -59,13 +59,15 @@
             <li class="row top10 bottom10">
                 <div class="media col-xs-10 col-xs-offset-1">
                     <div class="media-body">
-                        <h4 class="media-heading"><%= articles[i].title%></h4>
+                        <h4 class="media-heading"> <a href=<%=articles[i].link %>> <%= articles[i].title%> </a></h4>
                         <span><%= articles[i].site %></span>
                     </div>
                 </div>
             </li>
+
         <% } %>
         </ul>
+
     </div>
 </body>
 <% include jsdefaults.ejs %>
