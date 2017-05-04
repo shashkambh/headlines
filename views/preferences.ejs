@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title> 
+   <title>Headlines</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Pacifico" />
   </head>
  
   <body>
   <form id="userPreferences" action="/preferences" method="post">
     <div class="container">
         <div class="row">
-            <div class="page-header col-xs-10 col-xs-offset-1">
+            <div class="page-header col-xs-10 col-xs-offset-1 page-banner">
                 <h1 class="page-title">Headlines</h1>
             </div>
 
@@ -19,7 +20,6 @@
             </ul>
         </div>
     </div>
-
  	
   <p class ="text-center"> Welcome to the News Application Headlines, <%= user.username %>!</p>
 <p class ="text-center"> Please select from the following News Sources to be in your Newsfeed.
