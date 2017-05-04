@@ -4,7 +4,8 @@
  */
 
 body {
-     background-image: url('newspaper.jpg'); 
+     background-image: url('newspaper.jpg');
+     background-position: center; 
 }
 
 .page-title {
