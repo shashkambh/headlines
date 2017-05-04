@@ -6,8 +6,20 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 	<link rel="stylesheet" href="/stylesheets/signup.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/index.css" />
 </head>
 <body>
+
+    <div class="container">
+        <div class="row">
+            <div class="page-header col-xs-10 col-xs-offset-1">
+                <h1 class="page-title">Headlines</h1>
+            </div>
+
+            <!-- here -->
+        </div>
+    </div>
 	<div class="container">
 		<div class="col-sm-6 col-sm-offset-3">
 			<h1><span class="fa fa-sign-in"></span><%= title %></h1>
@@ -28,16 +40,16 @@
 					<label>Password</label>
 					<input type="password" class="form-control" name="password">
 				</div>
-				<button type="submit" class="btn btn-warning btn-lg"><%= title %></button>
+				<button type="submit" class="btn btn-warning btn-lg" name=<%= title %>><%= title %></button>
 			</form>
 
 			<hr>
 			<% if (title === "Signup") { %>
-			<p>Already have an account? <a href="/login">Login</a></p>
+			<p>Already have an account? <a href="/login" name="login">Login </a></p>
 			<% } else if(title === "Login") { %>
-			<p>Need an account? <a href="/signup">Signup</a></p>
+			<p>Need an account? <a href="/signup" name="signup">Signup</a></p>
 			<% } %>
-			<p>Or go <a href="/">home</a>.</p>
+			<p>Or go <a href="/" name="home">home</a>.</p>
 
 		</div>
 	</div>
