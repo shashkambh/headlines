@@ -15,6 +15,7 @@
 	                <h1 class="page-title">Headlines</h1>
 	            </div>
 
+<<<<<<< HEAD
 	            <ul class="nav nav-platforms col-xs-10 col-xs-offset-1">
 	                <li role="presentation" class="active"><a href="/" name="home">Home</a></li>
 	            </ul>
@@ -36,6 +37,25 @@
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.sports[sportsFeed].link)) { %>
     						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports[sportsFeed].link %>>
+=======
+            <ul class="nav nav-platforms col-xs-10 col-xs-offset-1">
+                <li role="presentation" class="active"><a href="/">Home</a></li>
+            </ul>
+        </div>
+    </div>
+ 	
+  <p class ="text-center"> Welcome to the News Application Headlines, <%= user.username %>!</p>
+<p class ="text-center"> Please select from the following News Sources to be in your Newsfeed.
+<p class ="text-center"><b> Source Options:</b> </p>
+                        
+
+                    <h4> Sports </h4>
+                    <% for(sportsFeed in links.sports.link) { %>
+                    <div class="checkbox">
+                        <label>
+    						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.sports.sportsFeed.link)) { %>
+    						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports.sportsFeed.link %>>
+>>>>>>> updated
     						<% } else { %>
     						<input type="checkbox" id=<%= sportsFeed %> name="news" value=<%= links.sports[sportsFeed].link %>>
     						<% } %>
@@ -45,7 +65,7 @@
     			<% } %>
     			<br>
                 <h4> Miscellaneous </h4>
-    			<% for(miscFeed in links.misc) { %>
+    			<% for(miscFeed in links.misc.link) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.misc[miscFeed].link)) { %>
@@ -61,7 +81,7 @@
     		</div>
     		<div class="col-xs-2">
             <h4> News </h4>
-    			<% for(newsFeed in links.news) { %>
+    			<% for(newsFeed in links.news.link) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.news[newsFeed].link)) { %>
@@ -76,7 +96,7 @@
     		</div>
     		<div class="col-xs-2">
             <h4> Science and Technology </h4>
-    			<% for(techFeed in links.tech) { %>
+    			<% for(techFeed in links.tech.link) { %>
     				<div class="checkbox">
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.tech[techFeed].link)) { %>
