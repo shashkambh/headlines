@@ -31,7 +31,6 @@
             <h4> Sports </h4>
     			<% for(sportsFeed in links.sports) { %>
     				<div class="checkbox">
-                    
     					<label>
     						<% if(user.favSources && user.favSources.length >= 0 && user.favSources.includes(links.sports[sportsFeed].link)) { %>
     						<input type="checkbox" id=<%= sportsFeed %> name="news" checked value=<%= links.sports[sportsFeed].link %>>
