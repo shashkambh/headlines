@@ -70,4 +70,4 @@ updateAllFeeds();
 new CronJob('0 0 0 * * *', updateAllFeeds, null, true, 'America/Chicago');
 
 module.exports.feedData = feedData;
-module.exports.defaults = [feedSources.links.misc.XKCD.link, feedSources.links.tech.ScienceDailyBlackHoles.link, feedSources.links.news.BBC.link];
+module.exports.defaults = [feedSources.links.misc.XKCD.link, feedSources.links.news.NYT.link, feedSources.links.news.BBC.link];
