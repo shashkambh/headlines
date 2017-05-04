@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var bcrypt = require('bcryptjs');
 
 /* constants used for connection */
-var url = 'mongodb://localhost:27017/maindb';
+var url = 'mongodb://localhost:27017/maindb'
 var _db;
 
 /*
@@ -22,36 +22,6 @@ var connect = function(callback) {
 	}
 }
 
-/* 
- * Adds a feed
- *
-function addFeed(name, link) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.update({feed_link: link},
-			{ $set : {
-					name: name,
-					feed_link: link,
-					articles: []
-				}
-			},
-			{upsert: true}
-		);
-	});
-}*/
-
-/* 
- * Return links to all feed sources
- */
-function getFeedLinks(callback) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find({}, {feed_link: 1, _id: 0}).toArray(function(err, docs) {
-			callback(docs, err);
-		});
-	});
-}
-
 /*
  * Adds items (articles) to collection
  */
@@ -61,62 +31,6 @@ function updateArticles(items, callback) {
 	connect(function() {
 		var articles = _db.collection('articles');
 		articles.insertMany(items, {ordered : false}, cb);
-	});
-}
-
-/* 
- * Updates a feed's article list given the URL and posts to add
- * item: {
- *	title: something, link: somelink
- * }
- * items = [item1, item2, ...]
- */
-function updateArticleList(site, items) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.update( { feed_link: site },
-			{ $addToSet : { articles : { $each : items } } }
-		);
-	});
-}
-
-/*
- * Returns { articles : [a1, a2, ...] } for a certain feed
- */
-function getFeedArticles(feedLink, callback) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find({feed_link : feedLink}, { articles : 1, _id : 0 })
-		.toArray(function(err, docs) {
-			callback(docs, err);
-		});
-	});
-}
-
-/*
- * Return numArticles from each feed
- */
-function getMostRecentArticles(feedLink, numArticles, callback) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find({}, { articles: 1, _id: 0})
-		.limit(numArticles)
-		.toArray(function(err, docs) {
-			callback(docs, err);
-		});
-	});
-}
-
-/*
- * Returns all feeds in the database
- */
-function getAllFeedLinks(callback) {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find({}, {feed_link: 1, _id: 0 })
-		.toArray(function(err, docs) {
-			callback(docs, err);
-		});
 	});
 }
 
@@ -136,18 +50,6 @@ function getArticlesFeedList(feedLinks, limit, callback) {
 		sort({date: -1}).
 		toArray(function(err, docs) {
 			callback(docs, err);
-		});
-	});
-}
-
-/*
- * Runs find all, for debugging
- */
-function printSources() {
-	connect(function() {
-		var sources = _db.collection('sources');
-		sources.find().toArray(function(err, docs) {
-			console.log(docs);
 		});
 	});
 }
@@ -217,24 +119,16 @@ function addUserFeed(req, res, user, rssSources){
 
         req.login(updatedUser, function(err) {
         	if (err) return err;
-        		console.log("After relogin: "+req.session.passport.updatedUser.changedField)
-        		res.send(200)
-    		});
+            res.send(200)
+        });
         
 	});
 }
 
 module.exports.testConnect = connect;
-//module.exports.addFeed = addFeed;
-module.exports.getFeedLinks = getFeedLinks;
-module.exports.updateArticleList = updateArticleList;
 module.exports.updateArticles = updateArticles;
-module.exports.getFeedArticles = getFeedArticles;
-module.exports.testPrintSources = printSources;
-module.exports.getAllFeedLinks = getAllFeedLinks;
-module.exports.getMostRecentArticles = getMostRecentArticles;
+module.exports.getArticlesFeedList = getArticlesFeedList;
 module.exports.addUser = addUser;
 module.exports.userLogin = userLogin;
 module.exports.addUserFeed = addUserFeed;
-module.exports.getArticlesFeedList = getArticlesFeedList;
 
