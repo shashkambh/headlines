@@ -26,7 +26,7 @@ module.exports.links = {
     },
     tech : {
         ReutersTech: {link: "http://feeds.reuters.com/reuters/technologyNews", imgsrc: "/images/reuters.jpeg"},
-        Nature: {link: "http://feeds.nature.com/nature/rss/current", imgsrc: "/images/nature.jpeg" },
+        Nature: {link: "http://feeds.nature.com/nature/rss/current", imgsrc: "/images/nature.png" },
         BBC: {link: "http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk#", imgsrc: "/images/bbcnews.png" },
         PBS: {link: "http://feeds.feedburner.com/ScienceTechnologyPBSNewsHour", imgsrc: "/images/pbs.jpeg" },
         ScienceDailyTech: {link: "https://rss.sciencedaily.com/top/technology.xml", imgsrc: "/images/science.jpg"},
