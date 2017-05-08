@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var bcrypt = require('bcryptjs');
 
 /* constants used for connection */
-var url = 'mongodb://localhost:27017/maindb'
+var url = process.env.dbpath;
 var _db;
 
 /*
