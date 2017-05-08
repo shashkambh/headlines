@@ -1,0 +1,16 @@
+The deployed website can be found: https://headlines-mqgdansypi.now.sh
+
+We developed a NodeJS website that shows articles from various news sources. Users have the ability to create an account and select which sources they want to view articles from. For example, you can find articles from BBC, New York Times and XKCD on the default page. MongoDB was used as our database.
+
+To execute this project on your localhost:
+
+1. git clone https://github.com/shashkambh/headlines.git
+2. Install mongodb https://www.mongodb.com/download-center#community
+3. Start the local database (use maindb)
+4. Install npm https://docs.npmjs.com/cli/install
+5. In the /headlines directory, run the command "npm install" to download all required node modules
+6. npm start
+7. Navigate to localhost:3000 to view the project
+
+
+Note: If you do not have mongodb running on your localhost the project will not run!
