@@ -63,7 +63,7 @@ function updateAllFeeds(){
 updateAllFeeds();
 
 // Updates all feeds every day 
-new CronJob('0 0 0 * * *', updateAllFeeds, null, true, 'America/Chicago');
+new CronJob('0 0 */2 * * *', updateAllFeeds, null, true, 'America/Chicago');
 
 module.exports.feedData = feedData;
 module.exports.defaults = [feedSources.links.misc.XKCD.link, feedSources.links.news.NYT.link, feedSources.links.news.BBC.link];
